@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        tools:context=".Fragments.AsteroidDetailFragment">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/chosen_asteroid_img_view"
+            android:layout_width="0dp"
+            android:layout_height="220dp"
+            tools:src="@tools:sample/backgrounds/scenic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chosen_asteroid_img_view">
+
+          <androidx.appcompat.widget.LinearLayoutCompat
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+              <androidx.appcompat.widget.LinearLayoutCompat
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="16dp"
+                  android:orientation="vertical">
+
+                  <androidx.appcompat.widget.AppCompatTextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:textStyle="bold"
+                      android:id="@+id/title_close_approach_date"
+                      android:text="@string/close_approach_date_title"
+                      android:textColor="@color/white"/>
+
+                  <androidx.appcompat.widget.AppCompatTextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/close_approach_date"
+                      android:layout_marginTop="4dp"
+                      android:textStyle="bold"
+                      tools:text="2022-01-03"
+                      android:textColor="@color/white"/>
+
+              </androidx.appcompat.widget.LinearLayoutCompat>
+
+              <androidx.appcompat.widget.LinearLayoutCompat
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="16dp"
+                  android:weightSum="3"
+                  android:orientation="horizontal">
+
+              <androidx.appcompat.widget.LinearLayoutCompat
+                  android:layout_width="0dp"
+                  android:layout_weight="2.8"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
+
+                  <androidx.appcompat.widget.AppCompatTextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:textStyle="bold"
+                      android:layout_marginTop="4dp"
+                      android:id="@+id/title_absolute_magnitude"
+                      android:text="@string/absolute_magnitude"
+                      android:textColor="@color/white"/>
+
+                  <androidx.appcompat.widget.AppCompatTextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/magnitude"
+                      android:layout_marginTop="4dp"
+                      android:textStyle="bold"
+                      tools:text="2022-01-03"
+                      android:textColor="@color/white"/>
+              </androidx.appcompat.widget.LinearLayoutCompat>
+
+                  <androidx.appcompat.widget.AppCompatImageView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_weight="0.2"
+                      android:padding="16dp"
+                      android:id="@+id/info_img"
+                      tools:src="@drawable/ic_help_24"/>
+          </androidx.appcompat.widget.LinearLayoutCompat>
+
+              <androidx.appcompat.widget.LinearLayoutCompat
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="16dp"
+                  android:orientation="vertical">
+
+                  <androidx.appcompat.widget.AppCompatTextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:textStyle="bold"
+                      android:id="@+id/title_estimated_diameter"
+                      android:text="@string/estimated_diameter"
+                      android:textColor="@color/white"/>
+
+                  <androidx.appcompat.widget.AppCompatTextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/estimated_diameter"
+                      android:layout_marginTop="4dp"
+                      android:textStyle="bold"
+                      tools:text="2022-01-03"
+                      android:textColor="@color/white"/>
+
+              </androidx.appcompat.widget.LinearLayoutCompat>
+
+              <androidx.appcompat.widget.LinearLayoutCompat
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="16dp"
+                  android:orientation="vertical">
+
+                  <androidx.appcompat.widget.AppCompatTextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:textStyle="bold"
+                      android:id="@+id/title_relative_velocity"
+                      android:text="@string/relative_velocity"
+                      android:textColor="@color/white"/>
+
+                  <androidx.appcompat.widget.AppCompatTextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/relative_velocity"
+                      android:layout_marginTop="4dp"
+                      android:textStyle="bold"
+                      tools:text="2022-01-03"
+                      android:textColor="@color/white"/>
+
+              </androidx.appcompat.widget.LinearLayoutCompat>
+
+              <androidx.appcompat.widget.LinearLayoutCompat
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="16dp"
+                  android:orientation="vertical">
+
+                  <androidx.appcompat.widget.AppCompatTextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:textStyle="bold"
+                      android:id="@+id/title_distance_from_earth"
+                      android:text="@string/distance_from_earth"
+                      android:textColor="@color/white"/>
+
+                  <androidx.appcompat.widget.AppCompatTextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/distance_from_earth"
+                      android:layout_marginTop="4dp"
+                      android:textStyle="bold"
+                      tools:text="2022-01-03"
+                      android:textColor="@color/white"/>
+
+              </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+          </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
