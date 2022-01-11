@@ -5,14 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.asteroidradar.DataClasses.DataClasses
-import com.example.asteroidradar.Network.NasaApiServices
+import com.example.asteroidradar.dataClasses.DataClasses
 import com.example.asteroidradar.Network.NetworkUtils
-import com.example.asteroidradar.R
 import kotlinx.coroutines.launch
-import okhttp3.ResponseBody
-import retrofit2.Response
-import timber.log.Timber
 import java.lang.Exception
 
 
@@ -45,6 +40,14 @@ class AsteroidViewModel(context: Context): ViewModel() {
         getPictureOfTheDay(context)
     }
 
+    fun displaySelectedAsteroidDetails(asteroid: DataClasses.Asteroid){
+        _navigateToSelectedAsteroidDetail.value = asteroid
+    }
+
+    private fun doneDisplayingAsteroidDetail(){
+        _navigateToSelectedAsteroidDetail.value = null
+    }
+
     private fun getNearEarthAsteroids(context: Context) {
             viewModelScope.launch {
                 try {
@@ -60,14 +63,15 @@ class AsteroidViewModel(context: Context): ViewModel() {
 
     private fun getPictureOfTheDay(context: Context){
         viewModelScope.launch {
-//            try{
+            try{
                 _loadStatus.value = AsteroidLoadStatus.LOADING
                 _pictureOfTheDay.value = networkUtils.fetchPictureOfTheDay(context)
                 _loadStatus.value = AsteroidLoadStatus.DONE
-//            }catch (ex: Exception){
-//                _loadStatus.value = AsteroidLoadStatus.ERROR
-//                _pictureOfTheDay.value = DataClasses.PictureOfTheDay("","","","","","","","")
-//            }
+            }catch (ex: Exception){
+                _loadStatus.value = AsteroidLoadStatus.ERROR
+                _pictureOfTheDay.value = DataClasses.PictureOfTheDay("","","",
+                    "","","","")
+            }
         }
     }
 

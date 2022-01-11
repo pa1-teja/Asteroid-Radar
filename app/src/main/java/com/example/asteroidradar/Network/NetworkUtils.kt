@@ -1,24 +1,17 @@
 package com.example.asteroidradar.Network
 
 import android.content.Context
-import com.example.asteroidradar.DataClasses.DataClasses
+import com.example.asteroidradar.dataClasses.DataClasses
 import com.example.asteroidradar.R
 import com.example.asteroidradar.Utils
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import okhttp3.internal.connection.ConnectInterceptor.intercept
-import okio.IOException
 import org.json.JSONObject
-import java.util.concurrent.TimeUnit
 
 
 class NetworkUtils {
 
     suspend fun fetchNearEarthAsteroids(context: Context): ArrayList<DataClasses.Asteroid> {
         val nextSevenDaysFormatted = Utils().getNextSevenDaysFormatted(context)
-        val json = NasaApiServices.asteroidsListService.getAsteroidsList(
+        val json = NasaApiServices.asteroidsServiceCall.getAsteroidsList(
                 startDate = nextSevenDaysFormatted.get(0),
                 endDate = nextSevenDaysFormatted.get(nextSevenDaysFormatted.lastIndex),
                 API_KEY = context.getString(R.string.API_KEY)
@@ -111,31 +104,7 @@ class NetworkUtils {
     }
 
 
-     suspend fun fetchPictureOfTheDay(context: Context): DataClasses.PictureOfTheDay{
-         val response:String = NasaApiServices.pictureOfTheDay.getPictureOfTheDay(context.getString(R.string.API_KEY))
-         val json = JSONObject(response)
-         return  DataClasses.PictureOfTheDay(
-             json.getString("date"),
-             json.getString("explanation"),
-             json.getString("hdurl"),
-             json.getString("media_type"),
-             json.getString("service_version"),
-             json.getString("title"),
-             json.getString("url")
-         )
-     }
+     suspend fun fetchPictureOfTheDay(context: Context): DataClasses.PictureOfTheDay = NasaApiServices.asteroidsServiceCall.getPictureOfTheDay(context.getString(R.string.API_KEY))
 
-    fun OkHttpClientWithTimeOut(): OkHttpClient {
-        val client = OkHttpClient()
-        client.newBuilder().addInterceptor {
-            it.proceed(
-                it.request().newBuilder().method(it.request().method, it.request().body).build()
-            )
-        }
-            .callTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(60,TimeUnit.SECONDS)
-            .connectTimeout(60,TimeUnit.SECONDS).build()
-        return client
-    }
 
 }

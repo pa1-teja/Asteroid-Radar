@@ -1,12 +1,8 @@
-package com.example.asteroidradar.DataClasses
+package com.example.asteroidradar.dataClasses
 
 import android.os.Parcelable
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.RawValue
-import org.json.JSONObject
-import java.util.*
-import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 class DataClasses {
 
@@ -36,7 +32,11 @@ class DataClasses {
 
     @Parcelize
     data class Asteroid(
+
+        @Json(name = "id")
         val id: String,
+
+        @Json(name = "name")
         val name: String,
 
         @Json(name = "links")
