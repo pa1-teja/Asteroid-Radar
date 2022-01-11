@@ -1,4 +1,4 @@
-package com.example.asteroidradar.DataAdapters
+package com.example.asteroidradar.dataAdapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -18,10 +18,7 @@ class AsteroidsListAdapter(val onClickListener: OnClickListener):
 
     override fun onBindViewHolder(holder: AsteroidViewHolder, position: Int) {
         val asteroid = getItem(position)
-//        holder.itemView.setOnClickListener {
-//            onClickListener.onClick(asteroid)
-//        }
-        holder.bind(asteroid,onClickListener)
+        holder.bind(asteroid, onClickListener)
     }
 
 
@@ -29,9 +26,8 @@ class AsteroidsListAdapter(val onClickListener: OnClickListener):
     class AsteroidViewHolder(var asteroidsListItemBinding: AsteroidsListItemBinding) : RecyclerView.ViewHolder(asteroidsListItemBinding.root){
             fun bind(asteroid: DataClasses.Asteroid, clickListener: OnClickListener){
                 asteroidsListItemBinding.asteroidInfo = asteroid
-                asteroidsListItemBinding.closeApproachData = asteroid.closeApproachData[adapterPosition]
-                asteroidsListItemBinding.clickListener = clickListener
-
+                asteroidsListItemBinding.closeApproachData = asteroid.closeApproachData.get(0)
+                clickListener.onClick(asteroid)
                 asteroidsListItemBinding.executePendingBindings()
             }
     }

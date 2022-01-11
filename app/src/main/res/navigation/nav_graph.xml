@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/asteroidFragment">
 
     <fragment
         android:id="@+id/asteroidFragment"
         android:name="com.example.asteroidradar.Fragments.AsteroidFragment"
-        android:label="AsteroidFragment" />
+        android:label="AsteroidFragment" >
+        <action
+            android:id="@+id/action_asteroidFragment_to_asteroidDetailFragment"
+            app:destination="@id/asteroidDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/asteroidDetailFragment"
         android:name="com.example.asteroidradar.Fragments.AsteroidDetailFragment"
-        android:label="fragment_asteroid_detail"
-        tools:layout="@layout/fragment_asteroid_detail" />
+        android:label="AsteroidDetailFragment" >
+        <argument
+            android:name="AsteroidObject"
+            app:argType="com.example.asteroidradar.dataClasses.DataClasses$Asteroid" />
+    </fragment>
 </navigation>

@@ -44,7 +44,7 @@ class AsteroidViewModel(context: Context): ViewModel() {
         _navigateToSelectedAsteroidDetail.value = asteroid
     }
 
-    private fun doneDisplayingAsteroidDetail(){
+     fun doneDisplayingAsteroidDetail(){
         _navigateToSelectedAsteroidDetail.value = null
     }
 

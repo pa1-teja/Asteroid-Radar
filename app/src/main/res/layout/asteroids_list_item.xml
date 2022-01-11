@@ -14,12 +14,13 @@
 
         <variable
             name="clickListener"
-            type="com.example.asteroidradar.DataAdapters.AsteroidsListAdapter.OnClickListener" />
+            type="com.example.asteroidradar.dataAdapters.AsteroidsListAdapter.OnClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="?android:attr/listPreferredItemHeightLarge"
+        android:onClick="@{() -> clickListener.onClick(asteroidInfo)}"
         android:layout_margin="8dp">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -31,7 +32,7 @@
             android:layout_marginStart="6dp"
             android:textStyle="bold"
             android:textColor="@color/white"
-            asteroidName="@{asteroidInfo}"
+            app:asteroidName="@{asteroidInfo}"
             app:layout_constraintEnd_toStartOf="@+id/asteroid_smiley"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -48,7 +49,7 @@
             android:layout_marginTop="2dp"
             android:layout_marginEnd="12dp"
             android:textColor="@color/white"
-            nearApproachDate="@{closeApproachData}"
+            app:nearApproachDate="@{closeApproachData}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/asteroid_smiley"
             app:layout_constraintHorizontal_bias="0.5"
@@ -64,7 +65,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            isAsteroidDangerous="@{asteroidInfo}"
+            app:isAsteroidDangerous="@{asteroidInfo.potentiallyHazardousAsteroid}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

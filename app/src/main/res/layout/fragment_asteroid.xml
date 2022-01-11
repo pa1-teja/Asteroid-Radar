@@ -12,6 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/black"
         tools:context=".Fragments.AsteroidFragment">
 
         <RelativeLayout
@@ -46,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:id="@+id/asteroids_list"
-            asteroidListData="@{viewModel.nearEarthAsteroids}"
+            app:asteroidListData="@{viewModel.nearEarthAsteroids}"
             tools:listitem="@layout/asteroids_list_item"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

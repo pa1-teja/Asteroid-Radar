@@ -1,15 +1,14 @@
-package com.example.asteroidradar.DataAdapters
+package com.example.asteroidradar.dataAdapters
 
-import android.widget.AutoCompleteTextView
-import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.asteroidradar.R
 import com.example.asteroidradar.dataClasses.DataClasses
 import com.squareup.picasso.Picasso
 
-class BindingAdapters {
+//class BindingAdapters {
 
     @BindingAdapter("asteroidListData")
     fun bindRecyclerView(recyclerView: RecyclerView, data: List<DataClasses.Asteroid>?) {
@@ -18,19 +17,18 @@ class BindingAdapters {
     }
 
     @BindingAdapter("isAsteroidDangerous")
-    fun bindAsteroidListItemImage(imageView: AppCompatImageView, data: DataClasses.Asteroid?) {
-        val img =
-            if (data?.isPotentiallyHazardousAsteroid == true) R.drawable.ic_status_potentially_hazardous else R.drawable.ic_status_normal
-        Picasso.get().load(img).into(imageView)
+    fun bindAsteroidListItemImage(imageView: AppCompatImageView, data: Boolean) {
+        imageView.setImageResource(if (data) R.drawable.ic_status_potentially_hazardous else R.drawable.ic_status_normal)
+//        Picasso.get().load(img).into(imageView)
     }
 
     @BindingAdapter("nearApproachDate")
-    fun bindListItemNearApproachDate(textView: AutoCompleteTextView, data: DataClasses.CloseApproachData) {
+    fun bindListItemNearApproachDate(textView: AppCompatTextView, data: DataClasses.CloseApproachData) {
         textView.setText(data.closeApproachDate)
     }
 
     @BindingAdapter("asteroidName")
-    fun bindListItemAsteroidName(textView: AutoCompleteTextView, data: DataClasses.Asteroid) {
+    fun bindListItemAsteroidName(textView: AppCompatTextView, data: DataClasses.Asteroid) {
         textView.setText(data.name)
     }
-}
+//}

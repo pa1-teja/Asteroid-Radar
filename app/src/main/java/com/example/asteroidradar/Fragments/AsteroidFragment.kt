@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.asteroidradar.DataAdapters.AsteroidsListAdapter
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
+import com.example.asteroidradar.dataAdapters.AsteroidsListAdapter
 import com.example.asteroidradar.R
 import com.example.asteroidradar.viewModels.AsteroidViewModel
 import com.example.asteroidradar.viewModels.AsteroidViewModelFactory
@@ -45,11 +48,20 @@ class AsteroidFragment : BaseFragment() {
         })
 
         asteroidViewModel.pictureOfTheDay.observe(viewLifecycleOwner, Observer {
-            if (it != null){
-                Picasso.get().load(it.hdurl).error(R.drawable.placeholder)
-                    .fit().into(astoridFragmentBinding.imgOfDDay)
+            if (it != null && it.hdurl.isNotBlank()){
+                Picasso.get().load(it.hdurl).error(R.drawable.placeholder).fit().into(astoridFragmentBinding.imgOfDDay)
+            }else{
+                Picasso.get().load(R.drawable.placeholder).fit().into(astoridFragmentBinding.imgOfDDay)
             }
         })
+
+        asteroidViewModel.navigateToSelectedAsteroidDetail.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                Navigation.createNavigateOnClickListener(AsteroidFragmentDirections.actionAsteroidFragmentToAsteroidDetailFragment(it))
+                asteroidViewModel.doneDisplayingAsteroidDetail()
+            }
+        })
+
         return astoridFragmentBinding.root
     }
 }
