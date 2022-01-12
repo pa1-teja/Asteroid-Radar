@@ -13,8 +13,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="180" />
-                            <option name="y" value="-12" />
+                            <option name="x" value="103" />
+                            <option name="y" value="-39" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -28,6 +28,15 @@
                             <option name="x" value="-145" />
                             <option name="y" value="-34" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_asteroidFragment_to_asteroidDetailFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>

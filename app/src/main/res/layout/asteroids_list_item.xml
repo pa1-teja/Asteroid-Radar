@@ -20,7 +20,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="?android:attr/listPreferredItemHeightLarge"
-        android:onClick="@{() -> clickListener.onClick(asteroidInfo)}"
         android:layout_margin="8dp">
 
         <androidx.appcompat.widget.AppCompatTextView

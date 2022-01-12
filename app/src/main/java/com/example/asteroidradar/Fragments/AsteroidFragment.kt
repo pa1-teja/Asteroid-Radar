@@ -57,7 +57,7 @@ class AsteroidFragment : BaseFragment() {
 
         asteroidViewModel.navigateToSelectedAsteroidDetail.observe(viewLifecycleOwner, Observer {
             it?.let {
-                Navigation.createNavigateOnClickListener(AsteroidFragmentDirections.actionAsteroidFragmentToAsteroidDetailFragment(it))
+                findNavController().navigate(AsteroidFragmentDirections.actionAsteroidFragmentToAsteroidDetailFragment(it))
                 asteroidViewModel.doneDisplayingAsteroidDetail()
             }
         })
