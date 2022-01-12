@@ -27,6 +27,10 @@ class AsteroidFragment : BaseFragment() {
 
     private lateinit var astoridFragmentBinding: FragmentAsteroidBinding
 
+    private val asteroidViewModel: AsteroidViewModel by lazy {
+        val asteroidViewModelFactory = AsteroidViewModelFactory(requireContext())
+        ViewModelProvider(this,asteroidViewModelFactory).get(AsteroidViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,10 +40,6 @@ class AsteroidFragment : BaseFragment() {
         astoridFragmentBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_asteroid,container,false)
 
         astoridFragmentBinding.lifecycleOwner = this
-
-        val asteroidViewModelFactory = AsteroidViewModelFactory(requireContext())
-
-        val  asteroidViewModel = ViewModelProvider(this,asteroidViewModelFactory).get(AsteroidViewModel::class.java)
 
         astoridFragmentBinding.viewModel = asteroidViewModel
 

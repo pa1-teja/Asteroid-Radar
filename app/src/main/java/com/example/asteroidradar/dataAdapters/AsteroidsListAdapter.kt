@@ -1,6 +1,7 @@
 package com.example.asteroidradar.dataAdapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -18,16 +19,19 @@ class AsteroidsListAdapter(val onClickListener: OnClickListener):
 
     override fun onBindViewHolder(holder: AsteroidViewHolder, position: Int) {
         val asteroid = getItem(position)
-        holder.bind(asteroid, onClickListener)
+        with(holder) {
+            this.itemView.setOnClickListener { onClickListener.onClick(asteroid) }
+            bind(asteroid)
+        }
     }
 
 
 
-    class AsteroidViewHolder(var asteroidsListItemBinding: AsteroidsListItemBinding) : RecyclerView.ViewHolder(asteroidsListItemBinding.root){
-            fun bind(asteroid: DataClasses.Asteroid, clickListener: OnClickListener){
+    class AsteroidViewHolder(var asteroidsListItemBinding: AsteroidsListItemBinding) :
+        RecyclerView.ViewHolder(asteroidsListItemBinding.root){
+            fun bind(asteroid: DataClasses.Asteroid){
                 asteroidsListItemBinding.asteroidInfo = asteroid
                 asteroidsListItemBinding.closeApproachData = asteroid.closeApproachData.get(0)
-                clickListener.onClick(asteroid)
                 asteroidsListItemBinding.executePendingBindings()
             }
     }

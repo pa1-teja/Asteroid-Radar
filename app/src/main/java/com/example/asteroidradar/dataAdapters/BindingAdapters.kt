@@ -8,7 +8,7 @@ import com.example.asteroidradar.R
 import com.example.asteroidradar.dataClasses.DataClasses
 import com.squareup.picasso.Picasso
 
-//class BindingAdapters {
+
 
     @BindingAdapter("asteroidListData")
     fun bindRecyclerView(recyclerView: RecyclerView, data: List<DataClasses.Asteroid>?) {
@@ -19,7 +19,6 @@ import com.squareup.picasso.Picasso
     @BindingAdapter("isAsteroidDangerous")
     fun bindAsteroidListItemImage(imageView: AppCompatImageView, data: Boolean) {
         imageView.setImageResource(if (data) R.drawable.ic_status_potentially_hazardous else R.drawable.ic_status_normal)
-//        Picasso.get().load(img).into(imageView)
     }
 
     @BindingAdapter("nearApproachDate")
@@ -31,4 +30,4 @@ import com.squareup.picasso.Picasso
     fun bindListItemAsteroidName(textView: AppCompatTextView, data: DataClasses.Asteroid) {
         textView.setText(data.name)
     }
-//}
+
