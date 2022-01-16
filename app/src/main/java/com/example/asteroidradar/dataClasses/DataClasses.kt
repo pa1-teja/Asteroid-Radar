@@ -3,6 +3,7 @@ package com.example.asteroidradar.dataClasses
 import android.os.Parcelable
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
 
 class DataClasses {
 
@@ -18,9 +19,9 @@ class DataClasses {
         val hdurl: String,
 
         @Json(name = "media_type")
-        val mediaType: String,
+        val media_type: String,
         @Json(name = "service_version")
-        val serviceVersion: String,
+        val service_version: String,
 
         @Json(name = "title")
         val title: String,
@@ -35,6 +36,8 @@ class DataClasses {
 
         @Json(name = "id")
         val id: String,
+
+        val date: String,
 
         @Json(name = "name")
         val name: String,
@@ -70,6 +73,10 @@ class DataClasses {
 
     @Parcelize
     data class EstimatedDiameter(
+
+
+        val keys: @RawValue MutableIterator<String>,
+
         @Json(name = "kilometers")
         val kilometers: Dimentions,
 

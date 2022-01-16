@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import com.example.asteroidradar.R
 import com.example.asteroidradar.databinding.FragmentAsteroidDetailBinding
+import com.example.asteroidradar.viewModels.AsteroidDetailViewModel
+import com.example.asteroidradar.viewModels.AsteroidDetailViewModelFactory
 
 
 /**
@@ -26,7 +29,12 @@ class AsteroidDetailFragment : BaseFragment() {
         // Inflate the layout for this fragment
         detailFragBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_asteroid_detail,container,false)
 
+        val asteroidObjBundle = AsteroidDetailFragmentArgs.fromBundle(requireArguments()).asteroidObject
+        val factory = AsteroidDetailViewModelFactory(asteroidObjBundle,requireContext())
+        val detailViewModel = ViewModelProvider(this,factory).get(AsteroidDetailViewModel::class.java)
+        detailFragBinding.asteroidObj = detailViewModel
 
+        detailFragBinding.lifecycleOwner = this
         return detailFragBinding.root
     }
 }

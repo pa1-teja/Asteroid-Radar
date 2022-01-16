@@ -7,13 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.asteroidradar.dataClasses.DataClasses
 import com.example.asteroidradar.Network.NetworkUtils
+import com.example.asteroidradar.database.AsteroidRadarDatabase
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
 
 enum class AsteroidLoadStatus{LOADING,ERROR,DONE}
 
-class AsteroidViewModel(context: Context): ViewModel() {
+class AsteroidViewModel(context: Context, asteroidRadarDatabase: AsteroidRadarDatabase): ViewModel() {
 
 
     private val _nearEarthAsteroids = MutableLiveData<List<DataClasses.Asteroid>>()
@@ -36,8 +37,8 @@ class AsteroidViewModel(context: Context): ViewModel() {
     val pictureOfTheDay: LiveData<DataClasses.PictureOfTheDay> get() = _pictureOfTheDay
 
     init {
-        getNearEarthAsteroids(context)
-        getPictureOfTheDay(context)
+        getNearEarthAsteroids(context, asteroidRadarDatabase)
+        getPictureOfTheDay(context, asteroidRadarDatabase)
     }
 
     fun displaySelectedAsteroidDetails(asteroid: DataClasses.Asteroid){
@@ -48,11 +49,11 @@ class AsteroidViewModel(context: Context): ViewModel() {
         _navigateToSelectedAsteroidDetail.value = null
     }
 
-    private fun getNearEarthAsteroids(context: Context) {
+    private fun getNearEarthAsteroids(context: Context, asteroidRadarDatabase: AsteroidRadarDatabase) {
             viewModelScope.launch {
                 try {
                     _loadStatus.value = AsteroidLoadStatus.LOADING
-                    _nearEarthAsteroids.value = networkUtils.fetchNearEarthAsteroids(context)
+                    _nearEarthAsteroids.value = networkUtils.fetchNearEarthAsteroids(context, asteroidRadarDatabase)
                     _loadStatus.value = AsteroidLoadStatus.DONE
                 } catch (ex: Exception){
                     _loadStatus.value = AsteroidLoadStatus.ERROR
@@ -61,7 +62,7 @@ class AsteroidViewModel(context: Context): ViewModel() {
             }
     }
 
-    private fun getPictureOfTheDay(context: Context){
+    private fun getPictureOfTheDay(context: Context, asteroidRadarDatabase: AsteroidRadarDatabase){
         viewModelScope.launch {
             try{
                 _loadStatus.value = AsteroidLoadStatus.LOADING

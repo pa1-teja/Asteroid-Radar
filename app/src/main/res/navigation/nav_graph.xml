@@ -17,7 +17,12 @@
         android:name="com.example.asteroidradar.Fragments.AsteroidDetailFragment"
         android:label="AsteroidDetailFragment" >
         <argument
-            android:name="AsteroidObject"
+            android:name="asteroidObject"
             app:argType="com.example.asteroidradar.dataClasses.DataClasses$Asteroid" />
+        <action
+            android:id="@+id/action_asteroidDetailFragment_to_asteroidFragment"
+            app:destination="@id/asteroidFragment"
+            app:popUpTo="@id/asteroidFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 </navigation>

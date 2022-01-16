@@ -1,5 +1,6 @@
 package com.example.asteroidradar.Fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.asteroidradar.dataAdapters.AsteroidsListAdapter
 import com.example.asteroidradar.R
+import com.example.asteroidradar.database.AsteroidRadarDatabase
 import com.example.asteroidradar.viewModels.AsteroidViewModel
 import com.example.asteroidradar.viewModels.AsteroidViewModelFactory
 import com.example.asteroidradar.databinding.FragmentAsteroidBinding
@@ -25,10 +27,11 @@ import com.squareup.picasso.Picasso
  */
 class AsteroidFragment : BaseFragment() {
 
+    private var application: Context? = null
     private lateinit var astoridFragmentBinding: FragmentAsteroidBinding
 
     private val asteroidViewModel: AsteroidViewModel by lazy {
-        val asteroidViewModelFactory = AsteroidViewModelFactory(requireContext())
+        val asteroidViewModelFactory = AsteroidViewModelFactory(requireContext(), AsteroidRadarDatabase.getDatabaseInstance(application!!)!!)
         ViewModelProvider(this,asteroidViewModelFactory).get(AsteroidViewModel::class.java)
     }
 
@@ -38,6 +41,8 @@ class AsteroidFragment : BaseFragment() {
     ): View? {
         // Inflate the layout for this fragment
         astoridFragmentBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_asteroid,container,false)
+
+        application = requireNotNull(this.requireActivity()).applicationContext
 
         astoridFragmentBinding.lifecycleOwner = this
 

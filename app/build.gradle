@@ -70,6 +70,11 @@ dependencies {
     //Images Handler
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    //Database Libs
+    implementation 'androidx.room:room-ktx:2.4.1'
+    implementation 'androidx.room:room-common:2.4.1'
+    kapt 'androidx.room:room-compiler:2.4.1'
+
 
 
     //Testing libs

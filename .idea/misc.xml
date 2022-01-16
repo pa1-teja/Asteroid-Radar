@@ -11,8 +11,10 @@
         <entry key="app/src/main/res/drawable/ic_status_normal.xml" value="0.27314814814814814" />
         <entry key="app/src/main/res/drawable/ic_status_potentially_hazardous.xml" value="0.27314814814814814" />
         <entry key="app/src/main/res/drawable/placeholder_picture_of_day.xml" value="0.27314814814814814" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.23489583333333333" />
         <entry key="app/src/main/res/layout/asteroids_list_item.xml" value="0.3120471014492754" />
         <entry key="app/src/main/res/layout/fragment_asteroid.xml" value="0.3120471014492754" />
+        <entry key="app/src/main/res/layout/fragment_asteroid_detail.xml" value="0.23489583333333333" />
       </map>
     </option>
   </component>

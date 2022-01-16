@@ -4,12 +4,15 @@ import android.content.Context
 import com.example.asteroidradar.dataClasses.DataClasses
 import com.example.asteroidradar.R
 import com.example.asteroidradar.Utils
+import com.example.asteroidradar.database.AsteroidRadarDatabase
 import org.json.JSONObject
+import kotlin.collections.ArrayList
+import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 
 class NetworkUtils {
 
-    suspend fun fetchNearEarthAsteroids(context: Context): ArrayList<DataClasses.Asteroid> {
+    suspend fun fetchNearEarthAsteroids(context: Context, asteroidRadarDatabase: AsteroidRadarDatabase): ArrayList<DataClasses.Asteroid> {
         val nextSevenDaysFormatted = Utils().getNextSevenDaysFormatted(context)
         val json = NasaApiServices.asteroidsServiceCall.getAsteroidsList(
                 startDate = nextSevenDaysFormatted.get(0),
@@ -17,10 +20,10 @@ class NetworkUtils {
                 API_KEY = context.getString(R.string.API_KEY)
             )
 
-        return filterNearEarthAsteroids(json,nextSevenDaysFormatted)
+        return filterNearEarthAsteroidsAndSaveOffline(json,nextSevenDaysFormatted, asteroidRadarDatabase)
     }
 
-    private fun filterNearEarthAsteroids(json: String, nextSevenDaysFormatted: ArrayList<String>, ):ArrayList<DataClasses.Asteroid>{
+    private suspend fun filterNearEarthAsteroidsAndSaveOffline(json: String, nextSevenDaysFormatted: ArrayList<String>, asteroidRadarDatabase: AsteroidRadarDatabase ):ArrayList<DataClasses.Asteroid>{
         val nearEarthObjects = ArrayList<DataClasses.Asteroid>()
 
         val jsonObject= JSONObject(json).getJSONObject("near_earth_objects")
@@ -37,6 +40,7 @@ class NetworkUtils {
                     val mts = estimatedDiameter.getJSONObject("meters")
                     val miles = estimatedDiameter.getJSONObject("miles")
                     val feet = estimatedDiameter.getJSONObject("feet")
+
 
                     val closeAproachArray = obj.getJSONArray("close_approach_data")
                     val closeApproachList = ArrayList<DataClasses.CloseApproachData>()
@@ -66,11 +70,14 @@ class NetworkUtils {
                         )
                     }
 
+
                     var asteroid = DataClasses.Asteroid(
                         obj.get("id").toString(),
+                        formattedDate,
                         obj.get("name").toString(),
                         DataClasses.Links(obj.get("links").toString()),
                         DataClasses.EstimatedDiameter(
+                            estimatedDiameter.keys(),
                             DataClasses.Dimentions(
                                 kms.getDouble("estimated_diameter_min"),
                                 kms.getDouble("estimated_diameter_max")
@@ -99,10 +106,13 @@ class NetworkUtils {
                 }
             }
         }
-
+        saveNearEarthObjectsOffline(nearEarthObjects,asteroidRadarDatabase)
         return nearEarthObjects
     }
 
+    suspend fun saveNearEarthObjectsOffline(asteroids: ArrayList<DataClasses.Asteroid>,asteroidRadarDatabase: AsteroidRadarDatabase){
+        asteroidRadarDatabase.nearEarthAsteroidsDAO.insertAsteroidInfo(asteroids)
+    }
 
      suspend fun fetchPictureOfTheDay(context: Context): DataClasses.PictureOfTheDay = NasaApiServices.asteroidsServiceCall.getPictureOfTheDay(context.getString(R.string.API_KEY))
 
