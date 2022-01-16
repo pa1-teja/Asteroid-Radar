@@ -4,10 +4,9 @@ import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
 
 
-@Entity(tableName = "diameter_values", indices = arrayOf(Index("metric", unique = true)) ,foreignKeys = arrayOf(ForeignKey(entity = estimatedDiameterEntity::class,
-                                                                        parentColumns = arrayOf("metric"),
-                                                                        childColumns = arrayOf("metric"),
-                                                                        onDelete = CASCADE)))
+@Entity(tableName = "diameter_values", indices = arrayOf(Index("metric", unique = true)) ,
+    foreignKeys = arrayOf(ForeignKey(entity = estimatedDiameterEntity::class, parentColumns = arrayOf("metric"),
+                                     childColumns = arrayOf("metric"), onDelete = CASCADE)))
 data class DiameterMetricValuesEntity(
 
     @PrimaryKey

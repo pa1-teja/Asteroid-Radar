@@ -5,7 +5,9 @@ import com.example.asteroidradar.dataClasses.DataClasses
 import com.example.asteroidradar.R
 import com.example.asteroidradar.Utils
 import com.example.asteroidradar.database.AsteroidRadarDatabase
+import com.example.asteroidradar.database.Entities.PicOfDayEntity
 import org.json.JSONObject
+import timber.log.Timber
 import kotlin.collections.ArrayList
 import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
@@ -114,7 +116,18 @@ class NetworkUtils {
         asteroidRadarDatabase.nearEarthAsteroidsDAO.insertAsteroidInfo(asteroids)
     }
 
-     suspend fun fetchPictureOfTheDay(context: Context): DataClasses.PictureOfTheDay = NasaApiServices.asteroidsServiceCall.getPictureOfTheDay(context.getString(R.string.API_KEY))
+     suspend fun fetchPictureOfTheDay(context: Context, asteroidRadarDatabase: AsteroidRadarDatabase): DataClasses.PictureOfTheDay{
+        val pic = NasaApiServices.asteroidsServiceCall.getPictureOfTheDay(context.getString(R.string.API_KEY))
+        asteroidRadarDatabase.picOfTheDayDAO.insertPicOfTheDay(
+            pic.date,
+                pic.explanation,
+                (if(pic.hdurl.isBlank())  R.drawable.ic_broken_image else pic.hdurl) as String,
+                pic.media_type,
+                pic.service_version,
+                pic.title,
+                pic.url)
+        return pic
+     }
 
 
 }

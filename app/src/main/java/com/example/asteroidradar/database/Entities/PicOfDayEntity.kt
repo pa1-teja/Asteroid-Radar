@@ -2,6 +2,7 @@ package com.example.asteroidradar.database.Entities
 
 import androidx.annotation.NonNull
 import androidx.room.*
+import com.squareup.moshi.Json
 
 
 @Entity(tableName = "image_of_the_day")
@@ -12,12 +13,14 @@ data class PicOfDayEntity(
     val date: String,
 
 
+
     @ColumnInfo(name = "explanation")
     val explanation: String,
 
-    @ColumnInfo(name = "hdurl")
-    @NonNull
+
+    @ColumnInfo(name = "hdurl",)
     val hdurl: String,
+
 
 
     @ColumnInfo(name = "media_type")
@@ -27,8 +30,10 @@ data class PicOfDayEntity(
     @ColumnInfo(name = "service_version")
     val service_version: String,
 
+
     @ColumnInfo(name = "title")
     val title: String,
+
 
     @ColumnInfo(name = "url")
     val url: String

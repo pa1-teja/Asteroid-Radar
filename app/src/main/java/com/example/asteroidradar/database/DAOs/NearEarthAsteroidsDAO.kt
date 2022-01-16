@@ -11,26 +11,26 @@ interface NearEarthAsteroidsDAO {
 
 
 
-    @Query("INSERT INTO near_earth_objects(id, date, name, absolute_magnitude_h, is_potentially_hazardous_asteroid, is_sentry_object, nasa_jpl_url, neo_reference_id) VALUES(:id,:date,:name,:aboluteMagnitude,:isPotentiallyHazardous,:isSentryObj,:nasaJplUrl,:neoReferenceId) ")
+    @Query("INSERT INTO near_earth_objects(id, date, name, linksId, estimated_diameter_id ,absolute_magnitude_h, is_potentially_hazardous_asteroid, is_sentry_object, nasa_jpl_url, neo_reference_id,close_approach_data_id) VALUES(:id,:date,:name,:id,:id,:aboluteMagnitude,:isPotentiallyHazardous,:isSentryObj,:nasaJplUrl,:neoReferenceId,:id) ")
     suspend fun insertNearEarthAsteroids(id:String, date: String, name: String ,aboluteMagnitude: Double, isPotentiallyHazardous: Boolean, isSentryObj: Boolean, nasaJplUrl: String, neoReferenceId: String)
 
-    @Query("INSERT INTO asteroid_links(self) VALUES(:link)")
-    suspend fun insertSelfLink(link: String)
+    @Query("INSERT INTO asteroid_links(linksId,self) VALUES(:id,:link)")
+    suspend fun insertSelfLink(id: String,link: String)
 
-    @Query("INSERT INTO estimated_diameter(metric) VALUES(:metric)")
-    suspend fun insertEstimatedDiameterInfo(metric: String)
+    @Query("INSERT INTO estimated_diameter(estimatedDiameterId,metric) VALUES(:id,:metric)")
+    suspend fun insertEstimatedDiameterInfo(id: String,metric: String)
 
     @Query("INSERT INTO diameter_values(metric ,estimated_diameter_min, estimated_diameter_max) VALUES(:metric,:estimatedDiameterMin, :estimatedDiameterMax)")
     suspend fun insertDiameterValues(metric:String ,estimatedDiameterMin:Double, estimatedDiameterMax:Double)
 
-    @Query("INSERT INTO close_approach_data (close_approach_date, close_approach_date_full, epoch_date_close_approach, orbiting_body) VALUES(:closeApproachDate, :closeApproachDateFull, :epoch,:orbitingBody)")
-    suspend fun insertCloseApproachInfo(closeApproachDate:String, closeApproachDateFull:String, epoch:Long, orbitingBody:String)
+    @Query("INSERT INTO close_approach_data (close_approach_id,close_approach_date, close_approach_date_full, epoch_date_close_approach,relative_velocity_id,miss_distance_id ,orbiting_body) VALUES(:id,:closeApproachDate, :closeApproachDateFull, :epoch,:id,:id,:orbitingBody)")
+    suspend fun insertCloseApproachInfo(id: String,closeApproachDate:String, closeApproachDateFull:String, epoch:Long, orbitingBody:String)
 
-    @Query("INSERT INTO relative_velocity (kilometers_per_second, kilometers_per_hour, miles_per_hour) VALUES(:kmps,:kmph,:mph)")
-    suspend fun insertRelativeVelocityInfo(kmps:String, kmph: String, mph:String)
+    @Query("INSERT INTO relative_velocity (id,kilometers_per_second, kilometers_per_hour, miles_per_hour) VALUES(:id,:kmps,:kmph,:mph)")
+    suspend fun insertRelativeVelocityInfo(id: String,kmps:String, kmph: String, mph:String)
 
-    @Query("INSERT INTO miss_distance (astronomical, lunar, kilometers, miles) VALUES(:astronomical,:lunar,:kilometers,:miles)")
-    suspend fun insertMissDistance(astronomical:String, lunar:String, kilometers:String, miles:String)
+    @Query("INSERT INTO miss_distance (id,astronomical, lunar, kilometers, miles) VALUES(:id,:astronomical,:lunar,:kilometers,:miles)")
+    suspend fun insertMissDistance(id: String,astronomical:String, lunar:String, kilometers:String, miles:String)
 
 
     @Transaction
@@ -47,9 +47,9 @@ interface NearEarthAsteroidsDAO {
                 asteroid.nasaJplUrl,
                 asteroid.neoReferenceId
             )
-            insertSelfLink(asteroid.links.self)
+            insertSelfLink(asteroid.id,asteroid.links.self)
             asteroid.estimatedDiameter.keys.forEach {
-                insertEstimatedDiameterInfo(it)
+                insertEstimatedDiameterInfo(asteroid.id,it)
                 when (it) {
                     "kilometers" -> insertDiameterValues(
                         it,
@@ -74,18 +74,20 @@ interface NearEarthAsteroidsDAO {
                 }
             }
             val close = asteroid.closeApproachData.get(asteroid.closeApproachData.size - 1)
-            insertCloseApproachInfo(
+            insertCloseApproachInfo(asteroid.id,
                 close.closeApproachDate,
                 close.closeApproachDateFull,
                 close.epochDateCloseApproach,
                 close.orbitingBody
             )
             insertRelativeVelocityInfo(
+                asteroid.id,
                 close.relativeVelocity.kilometersPerSecond,
                 close.relativeVelocity.kilometersPerHour,
                 close.relativeVelocity.milesPerHour
             )
             insertMissDistance(
+                asteroid.id,
                 close.missDistance.astronomical,
                 close.missDistance.lunar,
                 close.missDistance.kilometers,

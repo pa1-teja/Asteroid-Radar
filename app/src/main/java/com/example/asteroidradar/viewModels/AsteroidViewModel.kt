@@ -66,7 +66,7 @@ class AsteroidViewModel(context: Context, asteroidRadarDatabase: AsteroidRadarDa
         viewModelScope.launch {
             try{
                 _loadStatus.value = AsteroidLoadStatus.LOADING
-                _pictureOfTheDay.value = networkUtils.fetchPictureOfTheDay(context)
+                _pictureOfTheDay.value = networkUtils.fetchPictureOfTheDay(context,asteroidRadarDatabase)
                 _loadStatus.value = AsteroidLoadStatus.DONE
             }catch (ex: Exception){
                 _loadStatus.value = AsteroidLoadStatus.ERROR

@@ -9,11 +9,11 @@ import com.example.asteroidradar.database.Entities.PicOfDayEntity
 @Dao
 interface PicOfTheDayDAO {
 
-    @Insert(onConflict = ABORT)
-    fun insertPicOfTheDay(pictureOfTheDay: PicOfDayEntity)
+    @Query("INSERT INTO image_of_the_day(date,explanation, hdurl, media_type, service_version, title, url) VALUES(:date,:explanation,:hdurl,:mediaType,:serviceVersion,:title,:url) ")
+    fun insertPicOfTheDay(date:String,explanation:String, hdurl:String,mediaType:String, serviceVersion:String, title:String, url:String)
 
-//    @Delete
-//    fun deletePicOfTheDay()
+    @Query("DELETE FROM image_of_the_day")
+    fun deletePicOfTheDay()
 
     @Query("SELECT * FROM image_of_the_day")
     fun getPicOfTheDayInfo(): PicOfDayEntity

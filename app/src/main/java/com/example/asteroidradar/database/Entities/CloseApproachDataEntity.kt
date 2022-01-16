@@ -11,7 +11,7 @@ import com.example.asteroidradar.dataClasses.DataClasses
 data class CloseApproachDataEntity(
 
     @ColumnInfo(name = "close_approach_id")
-    val closeApproachDataID:Long,
+    val closeApproachDataID:String,
 
     @ColumnInfo(name = "close_approach_date")
     val close_approach_date : String,
@@ -23,10 +23,10 @@ data class CloseApproachDataEntity(
     val epoch_date_close_approach: Double,
 
     @ColumnInfo(name = "relative_velocity_id")
-    val relative_velocityID: Long,
+    val relative_velocityID: String,
 
     @ColumnInfo(name = "miss_distance_id")
-    val miss_distance: Long,
+    val miss_distance: String,
 
     @ColumnInfo(name = "orbiting_body")
     val orbiting_body: String

@@ -20,6 +20,7 @@ class DataClasses {
 
         @Json(name = "media_type")
         val media_type: String,
+
         @Json(name = "service_version")
         val service_version: String,
 

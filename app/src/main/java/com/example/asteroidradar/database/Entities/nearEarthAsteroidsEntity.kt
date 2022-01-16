@@ -20,12 +20,11 @@ data class nearEarthAsteroidsEntity(
     @ColumnInfo(name = "name")
     val name: String,
 
-
     @ColumnInfo(name = "linksId")
-    val linksId: Long,
+    val linksId: String,
 
     @ColumnInfo(name = "estimated_diameter_id")
-    val estimatedDiameterId: Long,
+    val estimatedDiameterId: String,
 
     @ColumnInfo(name = "absolute_magnitude_h")
     val absoluteMagnitudeH: Double,
@@ -47,5 +46,5 @@ data class nearEarthAsteroidsEntity(
 
 
     @ColumnInfo(name = "close_approach_data_id")
-    val closeApproachDataID: Long
+    val closeApproachDataID: String
 )
