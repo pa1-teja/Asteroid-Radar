@@ -108,6 +108,8 @@ class NetworkUtils {
                 }
             }
         }
+
+        Timber.d("is database open: ${asteroidRadarDatabase.isOpen}")
         saveNearEarthObjectsOffline(nearEarthObjects,asteroidRadarDatabase)
         return nearEarthObjects
     }
@@ -118,6 +120,7 @@ class NetworkUtils {
 
      suspend fun fetchPictureOfTheDay(context: Context, asteroidRadarDatabase: AsteroidRadarDatabase): DataClasses.PictureOfTheDay{
         val pic = NasaApiServices.asteroidsServiceCall.getPictureOfTheDay(context.getString(R.string.API_KEY))
+         Timber.d("pic : is database open: ${asteroidRadarDatabase.isOpen}")
         asteroidRadarDatabase.picOfTheDayDAO.insertPicOfTheDay(
             pic.date,
                 pic.explanation,

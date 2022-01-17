@@ -1,8 +1,6 @@
-package com.example.asteroidradar.database.DAOs
+package com.example.asteroidradar.database.daos
 
 import androidx.room.*
-import androidx.room.OnConflictStrategy.ABORT
-import com.example.asteroidradar.dataClasses.DataClasses
 import com.example.asteroidradar.database.Entities.PicOfDayEntity
 
 
