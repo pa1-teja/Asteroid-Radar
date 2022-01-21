@@ -29,9 +29,10 @@ class AsteroidFragment : BaseFragment() {
 
     private var application: Context? = null
     private lateinit var astoridFragmentBinding: FragmentAsteroidBinding
+    private lateinit var asteroidDatabase: AsteroidRadarDatabase
 
     private val asteroidViewModel: AsteroidViewModel by lazy {
-        val asteroidViewModelFactory = AsteroidViewModelFactory(requireContext(), AsteroidRadarDatabase.getDatabaseInstance(application!!)!!)
+        val asteroidViewModelFactory = AsteroidViewModelFactory(requireContext(), asteroidDatabase)
         ViewModelProvider(this,asteroidViewModelFactory).get(AsteroidViewModel::class.java)
     }
 
@@ -44,6 +45,8 @@ class AsteroidFragment : BaseFragment() {
 
         application = requireNotNull(this.requireActivity()).applicationContext
 
+        asteroidDatabase = AsteroidRadarDatabase.getDatabaseInstance(requireContext())
+
         astoridFragmentBinding.lifecycleOwner = this
 
         astoridFragmentBinding.viewModel = asteroidViewModel
@@ -52,11 +55,15 @@ class AsteroidFragment : BaseFragment() {
             asteroidViewModel.displaySelectedAsteroidDetails(it)
         })
 
-        asteroidViewModel.pictureOfTheDay.observe(viewLifecycleOwner, Observer {
-            if (it != null && it.hdurl.isNotBlank()){
-                Picasso.get().load(it.hdurl).error(R.drawable.placeholder).fit().into(astoridFragmentBinding.imgOfDDay)
-            }else{
-                Picasso.get().load(R.drawable.placeholder).fit().into(astoridFragmentBinding.imgOfDDay)
+        asteroidViewModel.picOfDayURL.observe(viewLifecycleOwner, Observer {
+            if (it.isNotBlank()){
+                Picasso.get().load(it).placeholder(R.drawable.placeholder).fit().into(astoridFragmentBinding.imgOfDDay)
+            }
+        })
+
+        asteroidViewModel.picOfDayExplanation.observe(viewLifecycleOwner, Observer {
+            if (it.isNotBlank()){
+                astoridFragmentBinding.imgOfDDay.contentDescription = it
             }
         })
 

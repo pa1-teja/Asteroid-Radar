@@ -1,14 +1,15 @@
 package com.example.asteroidradar.database.daos
 
 import androidx.room.*
+import androidx.room.OnConflictStrategy.REPLACE
 import com.example.asteroidradar.database.Entities.PicOfDayEntity
 
 
 @Dao
 interface PicOfTheDayDAO {
 
-    @Query("INSERT INTO image_of_the_day(date,explanation, hdurl, media_type, service_version, title, url) VALUES(:date,:explanation,:hdurl,:mediaType,:serviceVersion,:title,:url) ")
-    fun insertPicOfTheDay(date:String,explanation:String, hdurl:String,mediaType:String, serviceVersion:String, title:String, url:String)
+    @Insert(entity = PicOfDayEntity::class, onConflict = REPLACE)
+    fun insertPicOfTheDay(picOfDayEntity: PicOfDayEntity)
 
     @Query("DELETE FROM image_of_the_day")
     fun deletePicOfTheDay()

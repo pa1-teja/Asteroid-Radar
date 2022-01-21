@@ -1,8 +1,6 @@
 package com.example.asteroidradar.database.Entities
 
-import androidx.annotation.NonNull
 import androidx.room.*
-import com.squareup.moshi.Json
 
 
 @Entity(tableName = "image_of_the_day")

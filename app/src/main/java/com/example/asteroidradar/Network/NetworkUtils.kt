@@ -9,7 +9,6 @@ import com.example.asteroidradar.database.Entities.PicOfDayEntity
 import org.json.JSONObject
 import timber.log.Timber
 import kotlin.collections.ArrayList
-import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 
 class NetworkUtils {
@@ -118,19 +117,17 @@ class NetworkUtils {
         asteroidRadarDatabase.nearEarthAsteroidsDAO.insertAsteroidInfo(asteroids)
     }
 
-     suspend fun fetchPictureOfTheDay(context: Context, asteroidRadarDatabase: AsteroidRadarDatabase): DataClasses.PictureOfTheDay{
+     suspend fun fetchPictureOfTheDayAndStoreLocally(context: Context, asteroidRadarDatabase: AsteroidRadarDatabase){
         val pic = NasaApiServices.asteroidsServiceCall.getPictureOfTheDay(context.getString(R.string.API_KEY))
          Timber.d("pic : is database open: ${asteroidRadarDatabase.isOpen}")
         asteroidRadarDatabase.picOfTheDayDAO.insertPicOfTheDay(
-            pic.date,
+            PicOfDayEntity(pic.date,
                 pic.explanation,
                 (if(pic.hdurl.isBlank())  R.drawable.ic_broken_image else pic.hdurl) as String,
                 pic.media_type,
                 pic.service_version,
                 pic.title,
                 pic.url)
-        return pic
+        )
      }
-
-
 }
