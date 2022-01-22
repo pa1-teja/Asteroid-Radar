@@ -40,12 +40,28 @@ class AsteroidViewModel(context: Context, asteroidRadarDatabase: AsteroidRadarDa
 
     val navigateToSelectedAsteroidDetail: LiveData<DataClasses.Asteroid> get() = _navigateToSelectedAsteroidDetail
 
-    private val networkUtils = NetworkUtils()
+    private val _asteroidsList = MutableLiveData<List<DataClasses.asteroids>>()
+
+    val asteroidsList: LiveData<List<DataClasses.asteroids>> get() = _asteroidsList
 
     init {
-        getNearEarthAsteroids(context, asteroidRadarDatabase)
+        getAsteroidsList(asteroidRadarDatabase)
         getPicURLFromDB(asteroidRadarDatabase)
         getPicExplanation(asteroidRadarDatabase)
+    }
+
+    fun getAsteroidsList(asteroidRadarDatabase: AsteroidRadarDatabase){
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                _loadStatus.postValue(AsteroidLoadStatus.LOADING)
+                _asteroidsList.postValue(asteroidRadarDatabase.nearEarthAsteroidsDAO.getAsteroidsListData())
+                _loadStatus.postValue(AsteroidLoadStatus.DONE)
+            }catch (ex: Exception){
+                Timber.e(ex.message)
+                _loadStatus.postValue(AsteroidLoadStatus.ERROR)
+                _asteroidsList.postValue(asteroidRadarDatabase.nearEarthAsteroidsDAO.getAsteroidsListData())
+            }
+        }
     }
 
     fun displaySelectedAsteroidDetails(asteroid: DataClasses.Asteroid) {
@@ -56,27 +72,6 @@ class AsteroidViewModel(context: Context, asteroidRadarDatabase: AsteroidRadarDa
         _navigateToSelectedAsteroidDetail.value = null
     }
 
-    private fun getNearEarthAsteroids(
-        context: Context,
-        asteroidRadarDatabase: AsteroidRadarDatabase
-    ) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                _loadStatus.postValue(AsteroidLoadStatus.LOADING)
-                _nearEarthAsteroids.postValue(
-                    networkUtils.fetchNearEarthAsteroids(
-                        context,
-                        asteroidRadarDatabase
-                    )
-                )
-                _loadStatus.postValue(AsteroidLoadStatus.DONE)
-            } catch (ex: Exception) {
-                Timber.e(ex.message)
-                _loadStatus.postValue(AsteroidLoadStatus.ERROR)
-                _nearEarthAsteroids.postValue(ArrayList())
-            }
-        }
-    }
 
     private fun getPicURLFromDB(asteroidRadarDatabase: AsteroidRadarDatabase) {
 

@@ -1,6 +1,7 @@
 package com.example.asteroidradar.dataClasses
 
 import android.os.Parcelable
+import androidx.room.ColumnInfo
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
@@ -149,5 +150,32 @@ class DataClasses {
 
         @Json(name = "miles")
         val miles: String
+    ): Parcelable
+
+    @Parcelize
+    data class asteroids(
+        @ColumnInfo(name = "master_table_id")
+        val masterTableId: Int,
+
+        @ColumnInfo(name = "id")
+        val asteroidTableId: Long,
+
+        @ColumnInfo(name = "name")
+        val asteroidName: String,
+
+         @ColumnInfo(name = "date")
+         val date: String,
+
+         @ColumnInfo(name = "is_potentially_hazardous_asteroid")
+         val isDangerous: Boolean
+    ): Parcelable
+
+    @Parcelize
+    data class asteroidDetails(
+        val closeApproachDate: String,
+        val absoluteMagnitude: Double,
+        val estimatedDiameterKmsMax: String,
+        val relativeVelocityKmps: String,
+        val missDistanceAstronomical: String
     ): Parcelable
 }

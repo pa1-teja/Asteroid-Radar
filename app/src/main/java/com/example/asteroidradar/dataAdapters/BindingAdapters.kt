@@ -10,7 +10,7 @@ import com.squareup.picasso.Picasso
 
 
 @BindingAdapter("asteroidListData")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<DataClasses.Asteroid>?) {
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<DataClasses.asteroids>?) {
     val adapter = recyclerView.adapter as AsteroidsListAdapter
     adapter.submitList(data)
 }

@@ -18,6 +18,7 @@ import com.example.asteroidradar.database.AsteroidRadarDatabase
 import com.example.asteroidradar.viewModels.AsteroidViewModel
 import com.example.asteroidradar.viewModels.AsteroidViewModelFactory
 import com.example.asteroidradar.databinding.FragmentAsteroidBinding
+import com.example.asteroidradar.viewModels.AsteroidLoadStatus
 import com.squareup.picasso.Picasso
 
 /**
@@ -55,8 +56,19 @@ class AsteroidFragment : BaseFragment() {
             asteroidViewModel.displaySelectedAsteroidDetails(it)
         })
 
+
+        asteroidViewModel.loadStatus.observe(viewLifecycleOwner, Observer {
+            when(it){
+                AsteroidLoadStatus.LOADING -> astoridFragmentBinding.progressBar.visibility = View.VISIBLE
+                AsteroidLoadStatus.ERROR -> astoridFragmentBinding.progressBar.visibility = View.GONE
+                AsteroidLoadStatus.DONE -> astoridFragmentBinding.progressBar.visibility = View.GONE
+            }
+        })
+
         asteroidViewModel.picOfDayURL.observe(viewLifecycleOwner, Observer {
-            if (it.isNotBlank()){
+            if (it.isNullOrBlank()){
+                Picasso.get().load(R.drawable.placeholder).fit().into(astoridFragmentBinding.imgOfDDay)
+            } else{
                 Picasso.get().load(it).placeholder(R.drawable.placeholder).fit().into(astoridFragmentBinding.imgOfDDay)
             }
         })
