@@ -38,7 +38,7 @@ class AsteroidDetailFragment : BaseFragment() {
         // Inflate the layout for this fragment
         detailFragBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_asteroid_detail,container,false)
 
-         asteroidObjBundle = AsteroidDetailFragmentArgs.fromBundle(requireArguments()).asteroidObjectId
+        asteroidObjBundle = AsteroidDetailFragmentArgs.fromBundle(requireArguments()).asteroidObjectId
         asteroidDatabase = AsteroidRadarDatabase.getDatabaseInstance(requireContext())
         detailFragBinding.lifecycleOwner = this
         detailFragBinding.asteroidObj = asteroidDetailViewModel

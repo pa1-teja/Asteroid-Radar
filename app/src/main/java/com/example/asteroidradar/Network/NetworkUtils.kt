@@ -6,8 +6,10 @@ import com.example.asteroidradar.R
 import com.example.asteroidradar.Utils
 import com.example.asteroidradar.database.AsteroidRadarDatabase
 import com.example.asteroidradar.database.entities.PicOfDayEntity
+import okhttp3.OkHttpClient
 import org.json.JSONObject
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 
@@ -129,4 +131,11 @@ class NetworkUtils {
                 pic.url)
         )
      }
+
+     fun okHttpClient(): OkHttpClient {
+         return OkHttpClient().newBuilder()
+            .connectTimeout(10,TimeUnit.SECONDS)
+            .readTimeout(30,TimeUnit.SECONDS)
+            .writeTimeout(10,TimeUnit.SECONDS).build()
+    }
 }

@@ -106,7 +106,8 @@
                       android:layout_weight="0.2"
                       android:padding="16dp"
                       android:id="@+id/info_img"
-                      tools:src="@drawable/ic_help_24"/>
+                      android:src="@drawable/ic_baseline_help_24"
+                      tools:src="@drawable/ic_baseline_help_24"/>
           </androidx.appcompat.widget.LinearLayoutCompat>
 
               <androidx.appcompat.widget.LinearLayoutCompat
