@@ -15,15 +15,15 @@ import kotlin.collections.ArrayList
 
 class NetworkUtils {
 
-    suspend fun fetchNearEarthAsteroids(context: Context, asteroidRadarDatabase: AsteroidRadarDatabase) {
-        val nextSevenDaysFormatted = Utils().getNextSevenDaysFormatted(context)
+    suspend fun fetchNearEarthAsteroids(context: Context, formattedDates:ArrayList<String> ,asteroidRadarDatabase: AsteroidRadarDatabase) {
+
         val json = NasaApiServices.asteroidsServiceCall.getAsteroidsList(
-                startDate = nextSevenDaysFormatted.get(0),
-                endDate = nextSevenDaysFormatted.get(nextSevenDaysFormatted.lastIndex),
+                startDate = formattedDates.get(0),
+                endDate = formattedDates.get(formattedDates.lastIndex),
                 API_KEY = context.getString(R.string.API_KEY)
             )
 
-        filterNearEarthAsteroidsAndSaveOffline(json,nextSevenDaysFormatted, asteroidRadarDatabase)
+        filterNearEarthAsteroidsAndSaveOffline(json,formattedDates, asteroidRadarDatabase)
     }
 
     private fun filterNearEarthAsteroidsAndSaveOffline(json: String, nextSevenDaysFormatted: ArrayList<String>, asteroidRadarDatabase: AsteroidRadarDatabase ){

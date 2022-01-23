@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ఆస్టరాయిడ్ రాడార్</string>
+
+    <!-- Network Strings -->
+    <string name="API_KEY">0L79ZtiOlYdTYZlihXCtdgHjmz98YfiXjA9pFUU3</string>
+
+    <string name="API_QUERY_DATE_FORMAT">YYYY-MM-dd</string>
+    <string name="DEFAULT_END_DATE_DAYS">7</string>
+
+
+
+    <string name="img_of_the_day_txt">రోజు చిత్రం</string>
+
+
+    <!--    Asteroid Detail Fragment Strings -->
+    <string name="close_approach_date_title">సమీపించే తేదీ</string>
+    <string name="absolute_magnitude">సంపూర్ణ పరిమాణం</string>
+    <string name="estimated_diameter">అంచనా వేయబడిన వ్యాసం</string>
+    <string name="relative_velocity">సాపేక్ష వేగం</string>
+    <string name="distance_from_earth">భూమి నుండి దూరం</string>
+
+
+    <!--    Overflow menu strings-->
+    <string name="view_saved_asteroids">సేవ్ చేయబడిన గ్రహశకలాలను వీక్షించండి</string>
+    <string name="view_today_asteroids">ఈరోజు గ్రహశకలాలను వీక్షించండి</string>
+    <string name="view_week_asteroids">వారం గ్రహశకలాలను వీక్షించండి</string>
+
+
+    <string name="astronomical_unit_format">%f au</string>
+    <string name="km_unit_format">%f కి.మీ</string>
+    <string name="km_s_unit_format">%f కిమీ/సె</string>
+    <string name="astronomical_unit_explanation">ఖగోళ యూనిట్ (au) పొడవు యొక్క యూనిట్, భూమి నుండి సూర్యునికి దూరం మరియు దాదాపు 150 మిలియన్ కిలోమీటర్లు (93 మిలియన్ మైళ్ళు)</string>
+    <string name="astronomical_unit_explanation_button">ఖగోళ యూనిట్ నిర్వచనం</string>
+    <string name="potentially_hazardous_asteroid_image">సంభావ్య ప్రమాదకరమైన గ్రహశకలం చిత్రం</string>
+    <string name="not_hazardous_asteroid_image">సురక్షితమైన ఉల్క చిత్రం</string>
+    <string name="this_is_nasa_s_picture_of_day_showing_nothing_yet">ఇది NASA యొక్క రోజు యొక్క చిత్రం, ఇంకా ఏమీ చూపడం లేదు</string>
+    <string name="nasa_picture_of_day_content_description_format">నాసా యొక్క రోజు యొక్క చిత్రం: %s</string>
+
+</resources>

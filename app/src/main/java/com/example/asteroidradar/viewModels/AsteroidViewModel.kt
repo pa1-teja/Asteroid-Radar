@@ -19,24 +19,21 @@ class AsteroidViewModel(asteroidRadarDatabase: AsteroidRadarDatabase) :
     ViewModel() {
 
     private val _picOfDayURL = MutableLiveData<String>()
-
     val picOfDayURL: LiveData<String> get() = _picOfDayURL
 
     private val _picOfDayExplanation = MutableLiveData<String>()
-
     val picOfDayExplanation: LiveData<String> get() = _picOfDayExplanation
 
     private val _loadStatus = MutableLiveData<DataClasses.AsteroidLoadStatus>()
-
     val loadStatus: LiveData<DataClasses.AsteroidLoadStatus> get() = _loadStatus
 
     private val _navigateToSelectedAsteroidDetail = MutableLiveData<Long>()
-
     val navigateToSelectedAsteroidDetail: LiveData<Long> get() = _navigateToSelectedAsteroidDetail
 
-    private val _asteroidsList = MutableLiveData<List<DataClasses.Asteroids>>()
+    private val _asteroidsList: MutableLiveData<List<DataClasses.Asteroids>>? = null
+//    val asteroidsList: LiveData<List<DataClasses.Asteroids>>? get() = _asteroidsList
 
-    val asteroidsList: LiveData<List<DataClasses.Asteroids>> get() = _asteroidsList
+    val asteroidsList: LiveData<List<DataClasses.Asteroids>>? get() = _asteroidsList
 
     init {
         getAsteroidsListFromDB(asteroidRadarDatabase)
@@ -48,12 +45,14 @@ class AsteroidViewModel(asteroidRadarDatabase: AsteroidRadarDatabase) :
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _loadStatus.postValue(DataClasses.AsteroidLoadStatus.LOADING)
-                _asteroidsList.postValue(asteroidRadarDatabase.nearEarthAsteroidsDAO.getAsteroidsListData())
+                _asteroidsList?.postValue(asteroidRadarDatabase.nearEarthAsteroidsDAO.getAsteroidsListData().value)
                 _loadStatus.postValue(DataClasses.AsteroidLoadStatus.DONE)
             }catch (ex: Exception){
                 Timber.e(ex.message)
                 _loadStatus.postValue(DataClasses.AsteroidLoadStatus.ERROR)
-                _asteroidsList.postValue(asteroidRadarDatabase.nearEarthAsteroidsDAO.getAsteroidsListData())
+                if (_asteroidsList != null) {
+                    _asteroidsList.postValue(asteroidRadarDatabase.nearEarthAsteroidsDAO.getAsteroidsListData().value)
+                }
             }
         }
     }

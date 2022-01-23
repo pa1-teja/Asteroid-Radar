@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black"
+        style="@style/AppTheme"
         tools:context=".Fragments.AsteroidDetailFragment">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -49,11 +49,10 @@
                   <androidx.appcompat.widget.AppCompatTextView
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:textStyle="bold"
+                      style="@style/AsteroidRadarHeaderTextStyle"
                       android:id="@+id/title_close_approach_date"
                       android:text="@string/close_approach_date_title"
-                      android:contentDescription="@string/close_approach_date_title"
-                      android:textColor="@color/white"/>
+                      android:contentDescription="@string/close_approach_date_title" />
 
                   <androidx.appcompat.widget.AppCompatTextView
                       android:layout_width="match_parent"
@@ -61,9 +60,9 @@
                       android:id="@+id/close_approach_date"
                       app:closeApproachDate="@{asteroidObj.detailsOfSelectedAsteroid.closeApproachDate}"
                       android:layout_marginTop="4dp"
-                      android:textStyle="bold"
                       tools:text="2022-01-03"
-                      android:textColor="@color/white"/>
+                      style="@style/AsteroidRadarInfoTextStyle"/>
+
 
               </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -83,11 +82,10 @@
                   <androidx.appcompat.widget.AppCompatTextView
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:textStyle="bold"
+                      style="@style/AsteroidRadarHeaderTextStyle"
                       android:layout_marginTop="4dp"
                       android:id="@+id/title_absolute_magnitude"
-                      android:text="@string/absolute_magnitude"
-                      android:textColor="@color/white"/>
+                      android:text="@string/absolute_magnitude"/>
 
                   <androidx.appcompat.widget.AppCompatTextView
                       android:layout_width="match_parent"
@@ -95,9 +93,8 @@
                       android:id="@+id/magnitude"
                       android:layout_marginTop="4dp"
                       app:magnitude="@{asteroidObj.detailsOfSelectedAsteroid.absoluteMagnitude}"
-                      android:textStyle="bold"
-                      tools:text="2022-01-03"
-                      android:textColor="@color/white"/>
+                      style="@style/AsteroidRadarInfoTextStyle"
+                      tools:text="2022-01-03" />
               </androidx.appcompat.widget.LinearLayoutCompat>
 
                   <androidx.appcompat.widget.AppCompatImageView
@@ -119,20 +116,18 @@
                   <androidx.appcompat.widget.AppCompatTextView
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:textStyle="bold"
+                      style="@style/AsteroidRadarHeaderTextStyle"
                       android:id="@+id/title_estimated_diameter"
-                      android:text="@string/estimated_diameter"
-                      android:textColor="@color/white"/>
+                      android:text="@string/estimated_diameter" />
 
                   <androidx.appcompat.widget.AppCompatTextView
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:id="@+id/estimated_diameter"
                       android:layout_marginTop="4dp"
-                      android:textStyle="bold"
                       app:estimatedDiameter="@{asteroidObj.detailsOfSelectedAsteroid.estimatedDiameterKmsMax}"
                       tools:text="2022-01-03"
-                      android:textColor="@color/white"/>
+                      style="@style/AsteroidRadarInfoTextStyle"/>
 
               </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -145,7 +140,7 @@
                   <androidx.appcompat.widget.AppCompatTextView
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:textStyle="bold"
+                      style="@style/AsteroidRadarHeaderTextStyle"
                       android:id="@+id/title_relative_velocity"
                       android:text="@string/relative_velocity"
                       android:textColor="@color/white"/>
@@ -155,10 +150,9 @@
                       android:layout_height="wrap_content"
                       android:id="@+id/relative_velocity"
                       android:layout_marginTop="4dp"
-                      android:textStyle="bold"
                       app:relativeVelocity="@{asteroidObj.detailsOfSelectedAsteroid.relativeVelocityKmps}"
                       tools:text="2022-01-03"
-                      android:textColor="@color/white"/>
+                      style="@style/AsteroidRadarInfoTextStyle"/>
 
               </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -171,20 +165,18 @@
                   <androidx.appcompat.widget.AppCompatTextView
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:textStyle="bold"
+                      style="@style/AsteroidRadarHeaderTextStyle"
                       android:id="@+id/title_distance_from_earth"
-                      android:text="@string/distance_from_earth"
-                      android:textColor="@color/white"/>
+                      android:text="@string/distance_from_earth" />
 
                   <androidx.appcompat.widget.AppCompatTextView
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:id="@+id/distance_from_earth"
                       android:layout_marginTop="4dp"
-                      android:textStyle="bold"
                       app:distanceFromEarth="@{asteroidObj.detailsOfSelectedAsteroid.missDistanceAstronomical}"
                       tools:text="2022-01-03"
-                      android:textColor="@color/white"/>
+                      style="@style/AsteroidRadarInfoTextStyle"/>
 
               </androidx.appcompat.widget.LinearLayoutCompat>
 
