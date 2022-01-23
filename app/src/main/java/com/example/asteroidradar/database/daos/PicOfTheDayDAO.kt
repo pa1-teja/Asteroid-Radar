@@ -2,7 +2,7 @@ package com.example.asteroidradar.database.daos
 
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
-import com.example.asteroidradar.database.Entities.PicOfDayEntity
+import com.example.asteroidradar.database.entities.PicOfDayEntity
 
 
 @Dao

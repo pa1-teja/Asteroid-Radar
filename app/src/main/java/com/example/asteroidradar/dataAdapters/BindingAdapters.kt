@@ -10,7 +10,7 @@ import com.squareup.picasso.Picasso
 
 
 @BindingAdapter("asteroidListData")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<DataClasses.asteroids>?) {
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<DataClasses.Asteroids>?) {
     val adapter = recyclerView.adapter as AsteroidsListAdapter
     adapter.submitList(data)
 }
@@ -22,15 +22,15 @@ fun bindAsteroidListItemImage(imageView: AppCompatImageView, data: Boolean) {
 }
 
 @BindingAdapter("nearApproachDate")
-fun bindListItemNearApproachDate(textView: AppCompatTextView, data: DataClasses.CloseApproachData) {
-    textView.setText(data.closeApproachDate)
-    textView.contentDescription = data.closeApproachDate
+fun bindListItemNearApproachDate(textView: AppCompatTextView, date: String) {
+    textView.setText(date)
+    textView.contentDescription = date
 }
 
 @BindingAdapter("asteroidName")
-fun bindListItemAsteroidName(textView: AppCompatTextView, data: DataClasses.Asteroid) {
-    textView.setText(data.name)
-    textView.contentDescription = data.name
+fun bindListItemAsteroidName(textView: AppCompatTextView, asteroidName: String) {
+    textView.setText(asteroidName)
+    textView.contentDescription = asteroidName
 }
 
 
@@ -39,38 +39,38 @@ fun bindListItemAsteroidName(textView: AppCompatTextView, data: DataClasses.Aste
  */
 
 @BindingAdapter("closeApproachDate")
-fun bindCloseApproachDate(textView: AppCompatTextView, data: DataClasses.CloseApproachData) {
-    textView.text = data.closeApproachDate
-    textView.contentDescription = data.closeApproachDate
+fun bindCloseApproachDate(textView: AppCompatTextView, date: String?) {
+    textView.text = date
+    textView.contentDescription = date
 }
 
 @BindingAdapter("magnitude")
-fun bindCloseApproachAsteroidMagnitude(textView: AppCompatTextView, data: DataClasses.Asteroid) {
-    textView.text = data.absoluteMagnitudeH.toString()
-    textView.contentDescription = data.absoluteMagnitudeH.toString()
+fun bindCloseApproachAsteroidMagnitude(textView: AppCompatTextView, data: Double?) {
+    textView.text = data.toString()
+    textView.contentDescription = data.toString()
 }
 
 @BindingAdapter("estimatedDiameter")
-fun bindEstimatedDiameter(textView: AppCompatTextView, data:DataClasses.Asteroid){
-    textView.text = data.estimatedDiameter.kilometers.estimatedDiameterMaximum.toString() + "kms"
-    textView.contentDescription = data.estimatedDiameter.kilometers.estimatedDiameterMaximum.toString() + "kms"
+fun bindEstimatedDiameter(textView: AppCompatTextView, data:String?){
+    textView.text = "$data Kms"
+    textView.contentDescription = "$data Kms"
 }
 
 @BindingAdapter("relativeVelocity")
-fun bindEstimatedVelocity(textView: AppCompatTextView, data: DataClasses.CloseApproachData){
-    textView.text = data.relativeVelocity.kilometersPerSecond
-    textView.contentDescription = data.relativeVelocity.kilometersPerSecond
+fun bindEstimatedVelocity(textView: AppCompatTextView, data: String?){
+    textView.text = data
+    textView.contentDescription = data
 }
 
 @BindingAdapter("distanceFromEarth")
-fun bindDistanceFromEarth(textView: AppCompatTextView, data: DataClasses.CloseApproachData){
-    textView.text = data.missDistance.astronomical
-    textView.contentDescription = data.missDistance.astronomical
+fun bindDistanceFromEarth(textView: AppCompatTextView, data: String?){
+    textView.text = data
+    textView.contentDescription = data
 }
 
 @BindingAdapter("asteroidImage")
-fun bindHazardousAsteroidImage(imageView: AppCompatImageView, isPotentiallyDangerous: Boolean){
-    val img = if (isPotentiallyDangerous) R.drawable.asteroid_hazardous else R.drawable.asteroid_safe
-    imageView.contentDescription = if (isPotentiallyDangerous) "The asteroid is Potentially Hazardous" else "The asteroid is not Potentially Hazardous"
+fun bindHazardousAsteroidImage(imageView: AppCompatImageView, isPotentiallyDangerous: Boolean?){
+    val img = if (isPotentiallyDangerous == true) R.drawable.asteroid_hazardous else R.drawable.asteroid_safe
+    imageView.contentDescription = if (isPotentiallyDangerous == true) "The asteroid is Potentially Hazardous" else "The asteroid is not Potentially Hazardous"
     Picasso.get().load(img).into(imageView)
 }

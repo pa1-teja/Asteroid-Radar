@@ -153,29 +153,23 @@ class DataClasses {
     ): Parcelable
 
     @Parcelize
-    data class asteroids(
-        @ColumnInfo(name = "master_table_id")
+    data class Asteroids(
         val masterTableId: Int,
-
-        @ColumnInfo(name = "id")
         val asteroidTableId: Long,
-
-        @ColumnInfo(name = "name")
         val asteroidName: String,
-
-         @ColumnInfo(name = "date")
          val date: String,
-
-         @ColumnInfo(name = "is_potentially_hazardous_asteroid")
          val isDangerous: Boolean
     ): Parcelable
 
     @Parcelize
-    data class asteroidDetails(
+    data class AsteroidDetails(
         val closeApproachDate: String,
         val absoluteMagnitude: Double,
         val estimatedDiameterKmsMax: String,
         val relativeVelocityKmps: String,
-        val missDistanceAstronomical: String
+        val missDistanceAstronomical: String,
+        val isDangerous: Boolean
     ): Parcelable
+
+    enum class AsteroidLoadStatus { LOADING, ERROR, DONE }
 }

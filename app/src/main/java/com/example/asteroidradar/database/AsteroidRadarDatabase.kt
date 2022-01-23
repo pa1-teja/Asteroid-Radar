@@ -6,10 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.asteroidradar.database.daos.NearEarthAsteroidsDAO
 import com.example.asteroidradar.database.daos.PicOfTheDayDAO
-import com.example.asteroidradar.database.Entities.AsteroidsDataTable
-import com.example.asteroidradar.database.Entities.CloseApproachDataTable
-import com.example.asteroidradar.database.Entities.MasterTable
-import com.example.asteroidradar.database.Entities.PicOfDayEntity
+import com.example.asteroidradar.database.entities.AsteroidsDataTable
+import com.example.asteroidradar.database.entities.CloseApproachDataTable
+import com.example.asteroidradar.database.entities.MasterTable
+import com.example.asteroidradar.database.entities.PicOfDayEntity
 
 
 @Database(entities = [PicOfDayEntity::class, MasterTable::class, AsteroidsDataTable::class, CloseApproachDataTable::class],

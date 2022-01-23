@@ -1,31 +1,42 @@
 package com.example.asteroidradar.viewModels
 
-import android.app.Application
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.asteroidradar.dataClasses.DataClasses
+import com.example.asteroidradar.database.AsteroidRadarDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.lang.Exception
 
-class AsteroidDetailViewModel(private val asteroid:DataClasses.Asteroid, private val context: Context): ViewModel() {
+class AsteroidDetailViewModel(private val asteroidId:Long, asteroidRadarDatabase: AsteroidRadarDatabase): ViewModel() {
 
-    private val _detailsOfSelectedAsteroid = MutableLiveData<DataClasses.Asteroid>()
+    private val _detailsOfSelectedAsteroid = MutableLiveData<DataClasses.AsteroidDetails>()
 
-    val detailsOfSelectedAsteroid: LiveData<DataClasses.Asteroid> get() = _detailsOfSelectedAsteroid
+    val detailsOfSelectedAsteroid: LiveData<DataClasses.AsteroidDetails> get() = _detailsOfSelectedAsteroid
 
-    private val _closeApproachAsteroidDetail = MutableLiveData<DataClasses.CloseApproachData>()
+    private val _loadStatus = MutableLiveData<DataClasses.AsteroidLoadStatus>()
 
-    val closeApproachAsteroidDetail: LiveData<DataClasses.CloseApproachData> get() = _closeApproachAsteroidDetail
-
-    private val _dangerousAsteroidsFlag = MutableLiveData<Boolean>()
-
-    val dangerousAsteroidsFlag: LiveData<Boolean> get() = _dangerousAsteroidsFlag
+    val loadStatus: LiveData<DataClasses.AsteroidLoadStatus> get() = _loadStatus
 
     init {
-        _detailsOfSelectedAsteroid.value = asteroid
-        _closeApproachAsteroidDetail.value = asteroid.closeApproachData.get(asteroid.closeApproachData.size-1)
-        _dangerousAsteroidsFlag.value = asteroid.isPotentiallyHazardousAsteroid
+        getAsteroidDetailsFromDB(asteroidRadarDatabase)
     }
 
+    fun getAsteroidDetailsFromDB(asteroidRadarDatabase: AsteroidRadarDatabase) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                _loadStatus.postValue(DataClasses.AsteroidLoadStatus.LOADING)
+                val asteroidDetail = asteroidRadarDatabase.nearEarthAsteroidsDAO.getAllAsteroidInfo(asteroidId)
+                _detailsOfSelectedAsteroid.postValue(asteroidDetail)
+                _loadStatus.postValue(DataClasses.AsteroidLoadStatus.DONE)
+            } catch (ex: Exception) {
+                Timber.e(ex.message)
+                _loadStatus.postValue(DataClasses.AsteroidLoadStatus.ERROR)
+            }
+        }
+    }
 
 }

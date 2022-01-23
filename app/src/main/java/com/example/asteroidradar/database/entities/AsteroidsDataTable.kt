@@ -1,4 +1,4 @@
-package com.example.asteroidradar.database.Entities
+package com.example.asteroidradar.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -6,7 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "asteroids", foreignKeys = [ForeignKey(entity = MasterTable::class,
+@Entity(tableName = "Asteroids", foreignKeys = [ForeignKey(entity = MasterTable::class,
     parentColumns = arrayOf("master_id"), childColumns = arrayOf("master_table_id"), onDelete = CASCADE)]
 )
 data class AsteroidsDataTable(

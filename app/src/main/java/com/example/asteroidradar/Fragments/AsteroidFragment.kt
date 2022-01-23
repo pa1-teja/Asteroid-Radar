@@ -9,16 +9,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import com.example.asteroidradar.dataAdapters.AsteroidsListAdapter
 import com.example.asteroidradar.R
+import com.example.asteroidradar.dataClasses.DataClasses
 import com.example.asteroidradar.database.AsteroidRadarDatabase
 import com.example.asteroidradar.viewModels.AsteroidViewModel
 import com.example.asteroidradar.viewModels.AsteroidViewModelFactory
 import com.example.asteroidradar.databinding.FragmentAsteroidBinding
-import com.example.asteroidradar.viewModels.AsteroidLoadStatus
 import com.squareup.picasso.Picasso
 
 /**
@@ -33,7 +31,7 @@ class AsteroidFragment : BaseFragment() {
     private lateinit var asteroidDatabase: AsteroidRadarDatabase
 
     private val asteroidViewModel: AsteroidViewModel by lazy {
-        val asteroidViewModelFactory = AsteroidViewModelFactory(requireContext(), asteroidDatabase)
+        val asteroidViewModelFactory = AsteroidViewModelFactory(asteroidDatabase)
         ViewModelProvider(this,asteroidViewModelFactory).get(AsteroidViewModel::class.java)
     }
 
@@ -59,9 +57,9 @@ class AsteroidFragment : BaseFragment() {
 
         asteroidViewModel.loadStatus.observe(viewLifecycleOwner, Observer {
             when(it){
-                AsteroidLoadStatus.LOADING -> astoridFragmentBinding.progressBar.visibility = View.VISIBLE
-                AsteroidLoadStatus.ERROR -> astoridFragmentBinding.progressBar.visibility = View.GONE
-                AsteroidLoadStatus.DONE -> astoridFragmentBinding.progressBar.visibility = View.GONE
+                DataClasses.AsteroidLoadStatus.LOADING -> astoridFragmentBinding.progressBar.visibility = View.VISIBLE
+                DataClasses.AsteroidLoadStatus.ERROR -> astoridFragmentBinding.progressBar.visibility = View.GONE
+                DataClasses.AsteroidLoadStatus.DONE -> astoridFragmentBinding.progressBar.visibility = View.GONE
             }
         })
 
@@ -74,7 +72,7 @@ class AsteroidFragment : BaseFragment() {
         })
 
         asteroidViewModel.picOfDayExplanation.observe(viewLifecycleOwner, Observer {
-            if (it.isNotBlank()){
+            if (!it.isNullOrBlank()){
                 astoridFragmentBinding.imgOfDDay.contentDescription = it
             }
         })

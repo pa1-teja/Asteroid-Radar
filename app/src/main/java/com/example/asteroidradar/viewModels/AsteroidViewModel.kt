@@ -5,19 +5,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.asteroidradar.Network.NetworkUtils
 import com.example.asteroidradar.R
 import com.example.asteroidradar.dataClasses.DataClasses
 import com.example.asteroidradar.database.AsteroidRadarDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 
-enum class AsteroidLoadStatus { LOADING, ERROR, DONE }
 
-class AsteroidViewModel(context: Context, asteroidRadarDatabase: AsteroidRadarDatabase) :
+
+class AsteroidViewModel(asteroidRadarDatabase: AsteroidRadarDatabase) :
     ViewModel() {
 
     private val _picOfDayURL = MutableLiveData<String>()
@@ -28,44 +26,40 @@ class AsteroidViewModel(context: Context, asteroidRadarDatabase: AsteroidRadarDa
 
     val picOfDayExplanation: LiveData<String> get() = _picOfDayExplanation
 
-    private var _nearEarthAsteroids = MutableLiveData<List<DataClasses.Asteroid>>()
+    private val _loadStatus = MutableLiveData<DataClasses.AsteroidLoadStatus>()
 
-    val nearEarthAsteroids: LiveData<List<DataClasses.Asteroid>> get() = _nearEarthAsteroids
+    val loadStatus: LiveData<DataClasses.AsteroidLoadStatus> get() = _loadStatus
 
-    private val _loadStatus = MutableLiveData<AsteroidLoadStatus>()
+    private val _navigateToSelectedAsteroidDetail = MutableLiveData<Long>()
 
-    val loadStatus: LiveData<AsteroidLoadStatus> get() = _loadStatus
+    val navigateToSelectedAsteroidDetail: LiveData<Long> get() = _navigateToSelectedAsteroidDetail
 
-    private val _navigateToSelectedAsteroidDetail = MutableLiveData<DataClasses.Asteroid>()
+    private val _asteroidsList = MutableLiveData<List<DataClasses.Asteroids>>()
 
-    val navigateToSelectedAsteroidDetail: LiveData<DataClasses.Asteroid> get() = _navigateToSelectedAsteroidDetail
-
-    private val _asteroidsList = MutableLiveData<List<DataClasses.asteroids>>()
-
-    val asteroidsList: LiveData<List<DataClasses.asteroids>> get() = _asteroidsList
+    val asteroidsList: LiveData<List<DataClasses.Asteroids>> get() = _asteroidsList
 
     init {
-        getAsteroidsList(asteroidRadarDatabase)
+        getAsteroidsListFromDB(asteroidRadarDatabase)
         getPicURLFromDB(asteroidRadarDatabase)
-        getPicExplanation(asteroidRadarDatabase)
+        getPicExplanationFromDB(asteroidRadarDatabase)
     }
 
-    fun getAsteroidsList(asteroidRadarDatabase: AsteroidRadarDatabase){
+    private fun getAsteroidsListFromDB(asteroidRadarDatabase: AsteroidRadarDatabase){
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                _loadStatus.postValue(AsteroidLoadStatus.LOADING)
+                _loadStatus.postValue(DataClasses.AsteroidLoadStatus.LOADING)
                 _asteroidsList.postValue(asteroidRadarDatabase.nearEarthAsteroidsDAO.getAsteroidsListData())
-                _loadStatus.postValue(AsteroidLoadStatus.DONE)
+                _loadStatus.postValue(DataClasses.AsteroidLoadStatus.DONE)
             }catch (ex: Exception){
                 Timber.e(ex.message)
-                _loadStatus.postValue(AsteroidLoadStatus.ERROR)
+                _loadStatus.postValue(DataClasses.AsteroidLoadStatus.ERROR)
                 _asteroidsList.postValue(asteroidRadarDatabase.nearEarthAsteroidsDAO.getAsteroidsListData())
             }
         }
     }
 
-    fun displaySelectedAsteroidDetails(asteroid: DataClasses.Asteroid) {
-        _navigateToSelectedAsteroidDetail.value = asteroid
+    fun displaySelectedAsteroidDetails(asteroidId: Long) {
+        _navigateToSelectedAsteroidDetail.value = asteroidId
     }
 
     fun doneDisplayingAsteroidDetail() {
@@ -77,26 +71,26 @@ class AsteroidViewModel(context: Context, asteroidRadarDatabase: AsteroidRadarDa
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                _loadStatus.postValue(AsteroidLoadStatus.LOADING)
+                _loadStatus.postValue(DataClasses.AsteroidLoadStatus.LOADING)
                 _picOfDayURL.postValue(asteroidRadarDatabase.picOfTheDayDAO.getHDImgUrl())
-                _loadStatus.postValue(AsteroidLoadStatus.DONE)
+                _loadStatus.postValue(DataClasses.AsteroidLoadStatus.DONE)
             }catch (ex: Exception){
                 Timber.d("Failed to retrieve Image of the day URL from the database for this reason : ${ex.message}")
-                _loadStatus.postValue(AsteroidLoadStatus.ERROR)
+                _loadStatus.postValue(DataClasses.AsteroidLoadStatus.ERROR)
                 _picOfDayURL.postValue(R.drawable.ic_broken_image.toString())
             }
         }
     }
 
-    private fun getPicExplanation(asteroidRadarDatabase: AsteroidRadarDatabase){
+    private fun getPicExplanationFromDB(asteroidRadarDatabase: AsteroidRadarDatabase){
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                _loadStatus.postValue(AsteroidLoadStatus.LOADING)
+                _loadStatus.postValue(DataClasses.AsteroidLoadStatus.LOADING)
                 _picOfDayExplanation.postValue(asteroidRadarDatabase.picOfTheDayDAO.getExplanation())
-                _loadStatus.postValue(AsteroidLoadStatus.DONE)
+                _loadStatus.postValue(DataClasses.AsteroidLoadStatus.DONE)
             }catch (ex: Exception){
                 Timber.d("Failed to retrieve Image of the day URL from the database for this reason : ${ex.message}")
-                _loadStatus.postValue(AsteroidLoadStatus.ERROR)
+                _loadStatus.postValue(DataClasses.AsteroidLoadStatus.ERROR)
                 _picOfDayExplanation.postValue("Content Description for this picture is not available")
             }
         }

@@ -58,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:id="@+id/asteroids_list"
-            app:asteroidListData="@{viewModel.nearEarthAsteroids}"
+            app:asteroidListData="@{viewModel.asteroidsList}"
             tools:listitem="@layout/asteroids_list_item"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

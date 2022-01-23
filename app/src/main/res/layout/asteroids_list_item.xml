@@ -6,11 +6,7 @@
     <data>
         <variable
             name="asteroidInfo"
-            type="com.example.asteroidradar.dataClasses.DataClasses.Asteroid" />
-
-        <variable
-            name="closeApproachData"
-            type="com.example.asteroidradar.dataClasses.DataClasses.CloseApproachData" />
+            type="com.example.asteroidradar.dataClasses.DataClasses.Asteroids" />
 
         <variable
             name="clickListener"
@@ -19,6 +15,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:onClick="@{() -> clickListener.onClick(asteroidInfo)}"
         android:layout_height="?android:attr/listPreferredItemHeightLarge"
         android:layout_margin="8dp">
 
@@ -32,8 +29,7 @@
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/white"
-            android:contentDescription="@{asteroidInfo.name}"
-            app:asteroidName="@{asteroidInfo}"
+            app:asteroidName="@{asteroidInfo.asteroidName}"
             app:layout_constraintEnd_toStartOf="@+id/asteroid_smiley"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -50,8 +46,7 @@
             android:layout_marginTop="1dp"
             android:layout_marginEnd="12dp"
             android:textColor="@color/white"
-            android:contentDescription="@{closeApproachData.closeApproachDate}"
-            app:nearApproachDate="@{closeApproachData}"
+            app:nearApproachDate="@{asteroidInfo.date}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/asteroid_smiley"
             app:layout_constraintHorizontal_bias="0.5"
@@ -67,7 +62,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            app:isAsteroidDangerous="@{asteroidInfo.potentiallyHazardousAsteroid}"
+            app:isAsteroidDangerous="@{asteroidInfo.dangerous}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

@@ -1,4 +1,4 @@
-package com.example.asteroidradar.database.Entities
+package com.example.asteroidradar.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -10,11 +10,12 @@ import androidx.room.PrimaryKey
     foreignKeys = [ForeignKey(entity = AsteroidsDataTable::class, parentColumns = arrayOf("id"),
         childColumns = arrayOf("asteroid_table_id"), onDelete = CASCADE)])
 data class CloseApproachDataTable(
+    @PrimaryKey(autoGenerate = true)
+    val id:Int?,
 
     @ColumnInfo(name = "asteroid_table_id")
     val asteroidTableId: String,
 
-    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "close_approach_id")
     val closeApproachId: Int,
 

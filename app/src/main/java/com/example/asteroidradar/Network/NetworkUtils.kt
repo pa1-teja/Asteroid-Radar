@@ -5,7 +5,7 @@ import com.example.asteroidradar.dataClasses.DataClasses
 import com.example.asteroidradar.R
 import com.example.asteroidradar.Utils
 import com.example.asteroidradar.database.AsteroidRadarDatabase
-import com.example.asteroidradar.database.Entities.PicOfDayEntity
+import com.example.asteroidradar.database.entities.PicOfDayEntity
 import org.json.JSONObject
 import timber.log.Timber
 import kotlin.collections.ArrayList
@@ -13,7 +13,7 @@ import kotlin.collections.ArrayList
 
 class NetworkUtils {
 
-    suspend fun fetchNearEarthAsteroids(context: Context, asteroidRadarDatabase: AsteroidRadarDatabase): ArrayList<DataClasses.Asteroid> {
+    suspend fun fetchNearEarthAsteroids(context: Context, asteroidRadarDatabase: AsteroidRadarDatabase) {
         val nextSevenDaysFormatted = Utils().getNextSevenDaysFormatted(context)
         val json = NasaApiServices.asteroidsServiceCall.getAsteroidsList(
                 startDate = nextSevenDaysFormatted.get(0),
@@ -21,10 +21,10 @@ class NetworkUtils {
                 API_KEY = context.getString(R.string.API_KEY)
             )
 
-        return filterNearEarthAsteroidsAndSaveOffline(json,nextSevenDaysFormatted, asteroidRadarDatabase)
+        filterNearEarthAsteroidsAndSaveOffline(json,nextSevenDaysFormatted, asteroidRadarDatabase)
     }
 
-    private suspend fun filterNearEarthAsteroidsAndSaveOffline(json: String, nextSevenDaysFormatted: ArrayList<String>, asteroidRadarDatabase: AsteroidRadarDatabase ):ArrayList<DataClasses.Asteroid>{
+    private fun filterNearEarthAsteroidsAndSaveOffline(json: String, nextSevenDaysFormatted: ArrayList<String>, asteroidRadarDatabase: AsteroidRadarDatabase ){
         val nearEarthObjects = ArrayList<DataClasses.Asteroid>()
 
         val jsonObject= JSONObject(json).getJSONObject("near_earth_objects")
@@ -72,7 +72,7 @@ class NetworkUtils {
                     }
 
 
-                    var asteroid = DataClasses.Asteroid(
+                    val asteroid = DataClasses.Asteroid(
                         obj.get("id").toString(),
                         formattedDate,
                         obj.get("name").toString(),
@@ -110,10 +110,9 @@ class NetworkUtils {
 
         Timber.d("is database open: ${asteroidRadarDatabase.isOpen}")
         saveNearEarthObjectsOffline(nearEarthObjects,asteroidRadarDatabase)
-        return nearEarthObjects
     }
 
-    suspend fun saveNearEarthObjectsOffline(asteroids: ArrayList<DataClasses.Asteroid>,asteroidRadarDatabase: AsteroidRadarDatabase){
+   private fun saveNearEarthObjectsOffline(asteroids: ArrayList<DataClasses.Asteroid>, asteroidRadarDatabase: AsteroidRadarDatabase){
         asteroidRadarDatabase.nearEarthAsteroidsDAO.insertAsteroidInfo(asteroids)
     }
 

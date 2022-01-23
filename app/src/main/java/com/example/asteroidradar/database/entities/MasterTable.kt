@@ -1,4 +1,4 @@
-package com.example.asteroidradar.database.Entities
+package com.example.asteroidradar.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

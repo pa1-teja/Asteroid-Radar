@@ -20,7 +20,7 @@
             android:id="@+id/chosen_asteroid_img_view"
             android:layout_width="0dp"
             android:layout_height="220dp"
-            app:asteroidImage="@{asteroidObj.detailsOfSelectedAsteroid.potentiallyHazardousAsteroid}"
+            app:asteroidImage="@{asteroidObj.detailsOfSelectedAsteroid.dangerous}"
             tools:src="@tools:sample/backgrounds/scenic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +59,7 @@
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:id="@+id/close_approach_date"
-                      app:closeApproachDate="@{asteroidObj.closeApproachAsteroidDetail}"
+                      app:closeApproachDate="@{asteroidObj.detailsOfSelectedAsteroid.closeApproachDate}"
                       android:layout_marginTop="4dp"
                       android:textStyle="bold"
                       tools:text="2022-01-03"
@@ -94,7 +94,7 @@
                       android:layout_height="wrap_content"
                       android:id="@+id/magnitude"
                       android:layout_marginTop="4dp"
-                      app:magnitude="@{asteroidObj.detailsOfSelectedAsteroid}"
+                      app:magnitude="@{asteroidObj.detailsOfSelectedAsteroid.absoluteMagnitude}"
                       android:textStyle="bold"
                       tools:text="2022-01-03"
                       android:textColor="@color/white"/>
@@ -129,7 +129,7 @@
                       android:id="@+id/estimated_diameter"
                       android:layout_marginTop="4dp"
                       android:textStyle="bold"
-                      app:estimatedDiameter="@{asteroidObj.detailsOfSelectedAsteroid}"
+                      app:estimatedDiameter="@{asteroidObj.detailsOfSelectedAsteroid.estimatedDiameterKmsMax}"
                       tools:text="2022-01-03"
                       android:textColor="@color/white"/>
 
@@ -155,7 +155,7 @@
                       android:id="@+id/relative_velocity"
                       android:layout_marginTop="4dp"
                       android:textStyle="bold"
-                      app:relativeVelocity="@{asteroidObj.closeApproachAsteroidDetail}"
+                      app:relativeVelocity="@{asteroidObj.detailsOfSelectedAsteroid.relativeVelocityKmps}"
                       tools:text="2022-01-03"
                       android:textColor="@color/white"/>
 
@@ -181,7 +181,7 @@
                       android:id="@+id/distance_from_earth"
                       android:layout_marginTop="4dp"
                       android:textStyle="bold"
-                      app:distanceFromEarth="@{asteroidObj.closeApproachAsteroidDetail}"
+                      app:distanceFromEarth="@{asteroidObj.detailsOfSelectedAsteroid.missDistanceAstronomical}"
                       tools:text="2022-01-03"
                       android:textColor="@color/white"/>
 
