@@ -1,21 +1,18 @@
 package com.example.asteroidradar.viewModels
 
-import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.asteroidradar.R
 import com.example.asteroidradar.dataClasses.DataClasses
 import com.example.asteroidradar.database.AsteroidRadarDatabase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
 
 
-class AsteroidViewModel(asteroidRadarDatabase: AsteroidRadarDatabase) :
+class AsteroidViewModel(val asteroidRadarDatabase: AsteroidRadarDatabase) :
     ViewModel() {
 
     private val _picOfDayURL = MutableLiveData<String>()
@@ -30,28 +27,32 @@ class AsteroidViewModel(asteroidRadarDatabase: AsteroidRadarDatabase) :
     private val _navigateToSelectedAsteroidDetail = MutableLiveData<Long>()
     val navigateToSelectedAsteroidDetail: LiveData<Long> get() = _navigateToSelectedAsteroidDetail
 
-    private val _asteroidsList: MutableLiveData<List<DataClasses.Asteroids>>? = null
-//    val asteroidsList: LiveData<List<DataClasses.Asteroids>>? get() = _asteroidsList
+    private val _asteroidsList = MutableLiveData<List<DataClasses.Asteroids>>()
 
-    val asteroidsList: LiveData<List<DataClasses.Asteroids>>? get() = _asteroidsList
+    val asteroidsList: LiveData<List<DataClasses.Asteroids>> get() = _asteroidsList
 
     init {
         getAsteroidsListFromDB(asteroidRadarDatabase)
         getPicURLFromDB(asteroidRadarDatabase)
         getPicExplanationFromDB(asteroidRadarDatabase)
+
+
     }
 
     private fun getAsteroidsListFromDB(asteroidRadarDatabase: AsteroidRadarDatabase){
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _loadStatus.postValue(DataClasses.AsteroidLoadStatus.LOADING)
-                _asteroidsList?.postValue(asteroidRadarDatabase.nearEarthAsteroidsDAO.getAsteroidsListData().value)
+                asteroidRadarDatabase.nearEarthAsteroidsDAO.getAsteroidsListData().collectLatest {
+                    _asteroidsList.postValue(it)
+                }
+
                 _loadStatus.postValue(DataClasses.AsteroidLoadStatus.DONE)
             }catch (ex: Exception){
                 Timber.e(ex.message)
                 _loadStatus.postValue(DataClasses.AsteroidLoadStatus.ERROR)
-                if (_asteroidsList != null) {
-                    _asteroidsList.postValue(asteroidRadarDatabase.nearEarthAsteroidsDAO.getAsteroidsListData().value)
+                asteroidRadarDatabase.nearEarthAsteroidsDAO.getAsteroidsListData().collectLatest {
+                    _asteroidsList.postValue(it)
                 }
             }
         }
@@ -71,7 +72,9 @@ class AsteroidViewModel(asteroidRadarDatabase: AsteroidRadarDatabase) :
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _loadStatus.postValue(DataClasses.AsteroidLoadStatus.LOADING)
-                _picOfDayURL.postValue(asteroidRadarDatabase.picOfTheDayDAO.getHDImgUrl())
+                asteroidRadarDatabase.picOfTheDayDAO.getHDImgUrl().collectLatest {
+                    _picOfDayURL.postValue(it)
+                }
                 _loadStatus.postValue(DataClasses.AsteroidLoadStatus.DONE)
             }catch (ex: Exception){
                 Timber.d("Failed to retrieve Image of the day URL from the database for this reason : ${ex.message}")
@@ -85,7 +88,9 @@ class AsteroidViewModel(asteroidRadarDatabase: AsteroidRadarDatabase) :
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _loadStatus.postValue(DataClasses.AsteroidLoadStatus.LOADING)
-                _picOfDayExplanation.postValue(asteroidRadarDatabase.picOfTheDayDAO.getExplanation())
+                asteroidRadarDatabase.picOfTheDayDAO.getExplanation().collectLatest {
+                    _picOfDayExplanation.postValue(it)
+                }
                 _loadStatus.postValue(DataClasses.AsteroidLoadStatus.DONE)
             }catch (ex: Exception){
                 Timber.d("Failed to retrieve Image of the day URL from the database for this reason : ${ex.message}")

@@ -3,6 +3,7 @@ package com.example.asteroidradar.database.daos
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
 import com.example.asteroidradar.database.entities.PicOfDayEntity
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
@@ -15,11 +16,11 @@ interface PicOfTheDayDAO {
     fun deletePicOfTheDay()
 
     @Query("SELECT * FROM image_of_the_day")
-    fun getPicOfTheDayInfo(): PicOfDayEntity
+    fun getPicOfTheDayInfo(): Flow<PicOfDayEntity>
 
     @Query("SELECT hdurl FROM image_of_the_day")
-    fun getHDImgUrl():String
+    fun getHDImgUrl(): Flow<String>
 
     @Query("SELECT explanation FROM image_of_the_day")
-    fun getExplanation():String
+    fun getExplanation():Flow<String>
 }
