@@ -1,7 +1,9 @@
 package com.example.asteroidradar.viewModels
 
+import android.content.Context
 import androidx.lifecycle.*
 import com.example.asteroidradar.R
+import com.example.asteroidradar.Utils
 import com.example.asteroidradar.dataClasses.DataClasses
 import com.example.asteroidradar.database.AsteroidRadarDatabase
 import kotlinx.coroutines.Dispatchers
@@ -12,7 +14,7 @@ import timber.log.Timber
 
 
 
-class AsteroidViewModel(val asteroidRadarDatabase: AsteroidRadarDatabase) :
+class AsteroidViewModel(val context: Context,val asteroidRadarDatabase: AsteroidRadarDatabase) :
     ViewModel() {
 
     private val _picOfDayURL = MutableLiveData<String>()
@@ -31,23 +33,42 @@ class AsteroidViewModel(val asteroidRadarDatabase: AsteroidRadarDatabase) :
 
     val asteroidsList: LiveData<List<DataClasses.Asteroids>> get() = _asteroidsList
 
+
+
     init {
-        getAsteroidsListFromDB(asteroidRadarDatabase)
+        getAsteroidsListFromDB(asteroidRadarDatabase,DataClasses.AsteroidListRecordsFilter.SAVED)
         getPicURLFromDB(asteroidRadarDatabase)
         getPicExplanationFromDB(asteroidRadarDatabase)
-
-
     }
 
-    private fun getAsteroidsListFromDB(asteroidRadarDatabase: AsteroidRadarDatabase){
+    fun getAsteroidsListFromDB(asteroidRadarDatabase: AsteroidRadarDatabase, asteroidFilter: DataClasses.AsteroidListRecordsFilter){
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                _loadStatus.postValue(DataClasses.AsteroidLoadStatus.LOADING)
-                asteroidRadarDatabase.nearEarthAsteroidsDAO.getAsteroidsListData().collectLatest {
-                    _asteroidsList.postValue(it)
-                }
+             when(asteroidFilter){
+                 DataClasses.AsteroidListRecordsFilter.TODAY ->{
+                     _loadStatus.postValue(DataClasses.AsteroidLoadStatus.LOADING)
+                     asteroidRadarDatabase.nearEarthAsteroidsDAO.getTodayAsteroidsListData(Utils().getTodayDate(context)) .collectLatest {
+                         _asteroidsList.postValue(it)
+                         _loadStatus.postValue(DataClasses.AsteroidLoadStatus.DONE)
+                     }
+                 }
+                 DataClasses.AsteroidListRecordsFilter.WEEK ->{
+                     _loadStatus.postValue(DataClasses.AsteroidLoadStatus.LOADING)
+                     val weekDates = Utils().getNextSevenDaysFormatted(context)
+                     asteroidRadarDatabase.nearEarthAsteroidsDAO.getWeekAsteroidsListData(weekDates.get(0),weekDates.get(weekDates.lastIndex)).collectLatest {
+                         _asteroidsList.postValue(it)
+                         _loadStatus.postValue(DataClasses.AsteroidLoadStatus.DONE)
+                     }
+                 }
+                 DataClasses.AsteroidListRecordsFilter.SAVED ->{
+                     _loadStatus.postValue(DataClasses.AsteroidLoadStatus.LOADING)
+                     asteroidRadarDatabase.nearEarthAsteroidsDAO.getAsteroidsListData().collectLatest {
+                         _asteroidsList.postValue(it)
+                         _loadStatus.postValue(DataClasses.AsteroidLoadStatus.DONE)
+                     }
 
-                _loadStatus.postValue(DataClasses.AsteroidLoadStatus.DONE)
+                 }
+             }
             }catch (ex: Exception){
                 Timber.e(ex.message)
                 _loadStatus.postValue(DataClasses.AsteroidLoadStatus.ERROR)
@@ -74,8 +95,8 @@ class AsteroidViewModel(val asteroidRadarDatabase: AsteroidRadarDatabase) :
                 _loadStatus.postValue(DataClasses.AsteroidLoadStatus.LOADING)
                 asteroidRadarDatabase.picOfTheDayDAO.getHDImgUrl().collectLatest {
                     _picOfDayURL.postValue(it)
+                    _loadStatus.postValue(DataClasses.AsteroidLoadStatus.DONE)
                 }
-                _loadStatus.postValue(DataClasses.AsteroidLoadStatus.DONE)
             }catch (ex: Exception){
                 Timber.d("Failed to retrieve Image of the day URL from the database for this reason : ${ex.message}")
                 _loadStatus.postValue(DataClasses.AsteroidLoadStatus.ERROR)
@@ -90,8 +111,8 @@ class AsteroidViewModel(val asteroidRadarDatabase: AsteroidRadarDatabase) :
                 _loadStatus.postValue(DataClasses.AsteroidLoadStatus.LOADING)
                 asteroidRadarDatabase.picOfTheDayDAO.getExplanation().collectLatest {
                     _picOfDayExplanation.postValue(it)
+                    _loadStatus.postValue(DataClasses.AsteroidLoadStatus.DONE)
                 }
-                _loadStatus.postValue(DataClasses.AsteroidLoadStatus.DONE)
             }catch (ex: Exception){
                 Timber.d("Failed to retrieve Image of the day URL from the database for this reason : ${ex.message}")
                 _loadStatus.postValue(DataClasses.AsteroidLoadStatus.ERROR)

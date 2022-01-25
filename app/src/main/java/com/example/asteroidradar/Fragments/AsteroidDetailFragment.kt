@@ -9,8 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.asteroidradar.R
+import com.example.asteroidradar.Utils
+import com.example.asteroidradar.dataClasses.DataClasses
 import com.example.asteroidradar.database.AsteroidRadarDatabase
 import com.example.asteroidradar.databinding.FragmentAsteroidDetailBinding
 import com.example.asteroidradar.viewModels.AsteroidDetailViewModel
@@ -43,11 +46,21 @@ class AsteroidDetailFragment : BaseFragment() {
         asteroidObjBundle = AsteroidDetailFragmentArgs.fromBundle(requireArguments()).asteroidObjectId
         asteroidDatabase = AsteroidRadarDatabase.getDatabaseInstance(requireContext())
         detailFragBinding.infoImg.setOnClickListener {
-            val message = getString(R.string.astronomical_unit_explanation)
-            AlertDialog.Builder(requireContext()).setMessage(Html.fromHtml("<font color='#FFF9FB'>$message</font>")).setPositiveButton(R.string.okay_message,
-                DialogInterface.OnClickListener { dialogInterface, i ->
-                    dialogInterface.dismiss() }).create().show()
+            Utils().showAlertMessage(getString(R.string.astronomical_unit_explanation),requireContext())
         }
+
+        asteroidDetailViewModel.loadStatus.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                when(it){
+                    DataClasses.AsteroidLoadStatus.DONE ->{ detailFragBinding.loadingIndicator.visibility = View.GONE }
+                    DataClasses.AsteroidLoadStatus.ERROR ->{ detailFragBinding.loadingIndicator.visibility = View.GONE
+                        Utils().showAlertMessage(getString(R.string.failed_to_load_error_message),requireContext())
+                    }
+                    DataClasses.AsteroidLoadStatus.LOADING ->{detailFragBinding.loadingIndicator.visibility = View.VISIBLE}
+                }
+            }
+        })
+
         detailFragBinding.lifecycleOwner = this
         detailFragBinding.asteroidObj = asteroidDetailViewModel
         return detailFragBinding.root

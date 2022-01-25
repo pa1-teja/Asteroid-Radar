@@ -1,17 +1,19 @@
 package com.example.asteroidradar.Fragments
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
+import android.view.*
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.asteroidradar.dataAdapters.AsteroidsListAdapter
 import com.example.asteroidradar.R
+import com.example.asteroidradar.Utils
 import com.example.asteroidradar.dataClasses.DataClasses
 import com.example.asteroidradar.database.AsteroidRadarDatabase
 import com.example.asteroidradar.viewModels.AsteroidViewModel
@@ -26,12 +28,11 @@ import com.squareup.picasso.Picasso
  */
 class AsteroidFragment : BaseFragment() {
 
-    private var application: Context? = null
     private lateinit var astoridFragmentBinding: FragmentAsteroidBinding
     private lateinit var asteroidDatabase: AsteroidRadarDatabase
 
     private val asteroidViewModel: AsteroidViewModel by lazy {
-        val asteroidViewModelFactory = AsteroidViewModelFactory(asteroidDatabase)
+        val asteroidViewModelFactory = AsteroidViewModelFactory(requireContext(),asteroidDatabase)
         ViewModelProvider(this,asteroidViewModelFactory).get(AsteroidViewModel::class.java)
     }
 
@@ -42,13 +43,13 @@ class AsteroidFragment : BaseFragment() {
         // Inflate the layout for this fragment
         astoridFragmentBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_asteroid,container,false)
 
-        application = requireNotNull(this.requireActivity()).applicationContext
-
         asteroidDatabase = AsteroidRadarDatabase.getDatabaseInstance(requireContext())
 
         astoridFragmentBinding.lifecycleOwner = this
 
         astoridFragmentBinding.viewModel = asteroidViewModel
+
+        astoridFragmentBinding.loadingIndicator.isIndeterminate = true
 
         astoridFragmentBinding.asteroidsList.adapter = AsteroidsListAdapter(AsteroidsListAdapter.OnClickListener{
             asteroidViewModel.displaySelectedAsteroidDetails(it)
@@ -58,7 +59,10 @@ class AsteroidFragment : BaseFragment() {
         asteroidViewModel.picOfDayURL.observe(viewLifecycleOwner, Observer {
             if (it.isNullOrBlank()){
                 Picasso.get().load(R.drawable.placeholder).fit().into(astoridFragmentBinding.imgOfDDay)
-            } else{
+            }else if(it.equals("R.drawable.placeholder_picture_of_day")){
+                Picasso.get().load(R.drawable.place_holder_img_of_the_day).fit().into(astoridFragmentBinding.imgOfDDay)
+            }
+            else{
                 Picasso.get().load(it).placeholder(R.drawable.placeholder).fit().into(astoridFragmentBinding.imgOfDDay)
             }
         })
@@ -78,6 +82,35 @@ class AsteroidFragment : BaseFragment() {
             }
         })
 
+        asteroidViewModel.loadStatus.observe(viewLifecycleOwner, Observer {
+            it.let {
+                when(it){
+                    DataClasses.AsteroidLoadStatus.DONE ->{ astoridFragmentBinding.loadingIndicator.visibility = View.GONE }
+                    DataClasses.AsteroidLoadStatus.ERROR ->{ astoridFragmentBinding.loadingIndicator.visibility = View.GONE
+                       Utils().showAlertMessage(getString(R.string.failed_to_load_error_message),requireContext())
+                    }
+                    DataClasses.AsteroidLoadStatus.LOADING ->{astoridFragmentBinding.loadingIndicator.visibility = View.VISIBLE}
+                }
+            }
+        })
+
+        setHasOptionsMenu(true)
         return astoridFragmentBinding.root
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.asteroid_radar_overflow_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.savedAsteroids ->{asteroidViewModel.getAsteroidsListFromDB(asteroidDatabase,DataClasses.AsteroidListRecordsFilter.SAVED) }
+            R.id.weekAsteroids -> {asteroidViewModel.getAsteroidsListFromDB(asteroidDatabase,DataClasses.AsteroidListRecordsFilter.WEEK) }
+            R.id.todayAsteroids -> {asteroidViewModel.getAsteroidsListFromDB(asteroidDatabase, DataClasses.AsteroidListRecordsFilter.TODAY) }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+
 }

@@ -38,5 +38,6 @@
     <string name="not_hazardous_asteroid_image">సురక్షితమైన ఉల్క చిత్రం</string>
     <string name="this_is_nasa_s_picture_of_day_showing_nothing_yet">ఇది NASA యొక్క రోజు యొక్క చిత్రం, ఇంకా ఏమీ చూపడం లేదు</string>
     <string name="nasa_picture_of_day_content_description_format">నాసా యొక్క రోజు యొక్క చిత్రం: %s</string>
+    <string name="failed_to_load_error_message">డేటాను లోడ్ చేయడంలో విఫలమైంది. దయచేసి కొంత సమయం తర్వాత యాప్‌ని తెరవడానికి ప్రయత్నించండి.</string>
 
 </resources>

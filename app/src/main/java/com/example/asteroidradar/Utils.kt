@@ -1,6 +1,8 @@
 package com.example.asteroidradar
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.provider.SyncStateContract
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -41,5 +43,11 @@ import timber.log.Timber
          val dateFormat = SimpleDateFormat(context.getString(R.string.API_QUERY_DATE_FORMAT), Locale.getDefault())
          return dateFormat.format(calendar.time)
 
+     }
+
+      fun showAlertMessage(message:String, context:Context){
+         AlertDialog.Builder(context).setMessage(message).setPositiveButton(R.string.okay_message,
+             DialogInterface.OnClickListener { dialogInterface, i ->
+                 dialogInterface.dismiss() }).create().show()
      }
 }

@@ -2,6 +2,7 @@ package com.example.asteroidradar.dataClasses
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
+import com.example.asteroidradar.R
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
@@ -17,7 +18,7 @@ class DataClasses {
         val explanation: String,
 
         @Json(name = "hdurl")
-        val hdurl: String,
+        val hdurl: String = "R.drawable.placeholder_picture_of_day",
 
         @Json(name = "media_type")
         val media_type: String,
@@ -172,4 +173,6 @@ class DataClasses {
     ): Parcelable
 
     enum class AsteroidLoadStatus { LOADING, ERROR, DONE }
+
+    enum class AsteroidListRecordsFilter { WEEK, TODAY, SAVED }
 }

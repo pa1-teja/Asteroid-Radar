@@ -26,11 +26,12 @@ class BaseApplication: Application() {
     }
 
     private fun scheduleRecurringTask(){
-        val constraints = Constraints.Builder().setRequiresCharging(true)
+//        val constraints = Constraints.Builder().setRequiresCharging(true)
+//            .setRequiredNetworkType(NetworkType.UNMETERED).build()
+
+        val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.UNMETERED).build()
 
-//        val constraints = Constraints.Builder()
-//            .setRequiredNetworkType(NetworkType.UNMETERED).build()
 
         val repeatTaskAtIntervals = PeriodicWorkRequestBuilder<AsteroidsNASAAPIWork>(1,  TimeUnit.DAYS).setConstraints(constraints).build()
 

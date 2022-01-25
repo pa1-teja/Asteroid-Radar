@@ -89,4 +89,10 @@ interface NearEarthAsteroidsDAO {
 
      @Query("SELECT cad.close_approach_date AS closeApproachDate, ast.absolute_magnitude_h AS absoluteMagnitude, ast.estimated_diameter_Kms_max AS estimatedDiameterKmsMax, cad.relative_velocity_kilometers_per_second AS relativeVelocityKmps, cad.miss_distance_astronomical AS missDistanceAstronomical, ast.is_potentially_hazardous_asteroid AS isDangerous FROM Asteroids AS ast INNER JOIN close_approach_data AS cad ON ast.id = cad.asteroid_table_id WHERE ast.id = :asteroidTableId")
      fun getAllAsteroidInfo(asteroidTableId: Long): DataClasses.AsteroidDetails
+
+    @Query("SELECT ast.master_table_id AS masterTableId,ast.id AS asteroidTableId,ast.name AS asteroidName,mt.date AS date, ast.is_potentially_hazardous_asteroid AS isDangerous FROM ASTEROIDS AS ast INNER JOIN Asteroids_MasterTable AS mt ON mt.master_id = ast.master_table_id WHERE mt.date =:date")
+    fun getTodayAsteroidsListData(date: String): Flow<List<DataClasses.Asteroids>>
+
+    @Query("SELECT ast.master_table_id AS masterTableId,ast.id AS asteroidTableId,ast.name AS asteroidName,mt.date AS date, ast.is_potentially_hazardous_asteroid AS isDangerous FROM ASTEROIDS AS ast INNER JOIN Asteroids_MasterTable AS mt ON mt.master_id = ast.master_table_id WHERE mt.date BETWEEN :startDate AND :endDate")
+    fun getWeekAsteroidsListData(startDate: String,endDate: String): Flow<List<DataClasses.Asteroids>>
 }
