@@ -1,6 +1,9 @@
 package com.example.asteroidradar.Fragments
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
+import android.text.Html
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -37,9 +40,14 @@ class AsteroidDetailFragment : BaseFragment() {
     ): View {
         // Inflate the layout for this fragment
         detailFragBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_asteroid_detail,container,false)
-
         asteroidObjBundle = AsteroidDetailFragmentArgs.fromBundle(requireArguments()).asteroidObjectId
         asteroidDatabase = AsteroidRadarDatabase.getDatabaseInstance(requireContext())
+        detailFragBinding.infoImg.setOnClickListener {
+            val message = getString(R.string.astronomical_unit_explanation)
+            AlertDialog.Builder(requireContext()).setMessage(Html.fromHtml("<font color='#FFF9FB'>$message</font>")).setPositiveButton(R.string.okay_message,
+                DialogInterface.OnClickListener { dialogInterface, i ->
+                    dialogInterface.dismiss() }).create().show()
+        }
         detailFragBinding.lifecycleOwner = this
         detailFragBinding.asteroidObj = asteroidDetailViewModel
         return detailFragBinding.root

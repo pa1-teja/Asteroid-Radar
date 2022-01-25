@@ -18,18 +18,18 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<DataClasses.Asteroid
 @BindingAdapter("isAsteroidDangerous")
 fun bindAsteroidListItemImage(imageView: AppCompatImageView, data: Boolean?) {
     imageView.setImageResource(if (data == true) R.drawable.ic_status_potentially_hazardous else R.drawable.ic_status_normal)
-    imageView.contentDescription = if (data == true) "The asteroid is Potentially Hazardous" else "The asteroid is not Potentially Hazardous"
+    imageView.contentDescription = if (data == true) imageView.context.getString(R.string.potentially_hazardous_asteroid_image) else  imageView.context.getString(R.string.not_hazardous_asteroid_image)
 }
 
 @BindingAdapter("nearApproachDate")
 fun bindListItemNearApproachDate(textView: AppCompatTextView, date: String?) {
-    textView.setText(date)
+    textView.text = date
     textView.contentDescription = date
 }
 
 @BindingAdapter("asteroidName")
 fun bindListItemAsteroidName(textView: AppCompatTextView, asteroidName: String?) {
-    textView.setText(asteroidName)
+    textView.text = asteroidName
     textView.contentDescription = asteroidName
 }
 
@@ -46,31 +46,31 @@ fun bindCloseApproachDate(textView: AppCompatTextView, date: String?) {
 
 @BindingAdapter("magnitude")
 fun bindCloseApproachAsteroidMagnitude(textView: AppCompatTextView, data: Double?) {
-    textView.text = "${data.toString()} au"
-    textView.contentDescription = "${data.toString()} au"
+    textView.text = textView.context.getString(R.string.astronomical_unit_format,data)
+    textView.contentDescription = textView.context.getString(R.string.astronomical_unit_format,data)
 }
 
 @BindingAdapter("estimatedDiameter")
 fun bindEstimatedDiameter(textView: AppCompatTextView, data:String?){
-    textView.text = "$data Km"
-    textView.contentDescription = "$data Km"
+    textView.text = textView.context.getString(R.string.km_unit_format,data?.toFloat())
+    textView.contentDescription = textView.context.getString(R.string.km_unit_format,data?.toFloat())
 }
 
 @BindingAdapter("relativeVelocity")
 fun bindEstimatedVelocity(textView: AppCompatTextView, data: String?){
-    textView.text = "$data km/s"
-    textView.contentDescription = "$data km/s"
+    textView.text = textView.context.resources.getString(R.string.km_s_unit_format,data?.toFloat())
+    textView.contentDescription = textView.context.resources.getString(R.string.km_s_unit_format,data?.toFloat())
 }
 
 @BindingAdapter("distanceFromEarth")
 fun bindDistanceFromEarth(textView: AppCompatTextView, data: String?){
-    textView.text = "$data au"
-    textView.contentDescription = "$data au"
+    textView.text = textView.context.getString(R.string.astronomical_unit_format, data?.toFloat())
+    textView.contentDescription = textView.context.getString(R.string.astronomical_unit_format,data?.toFloat())
 }
 
 @BindingAdapter("asteroidImage")
 fun bindHazardousAsteroidImage(imageView: AppCompatImageView, isPotentiallyDangerous: Boolean?){
     val img = if (isPotentiallyDangerous == true) R.drawable.asteroid_hazardous else R.drawable.asteroid_safe
-    imageView.contentDescription = if (isPotentiallyDangerous == true) "The asteroid is Potentially Hazardous" else "The asteroid is not Potentially Hazardous"
+    imageView.contentDescription = if (isPotentiallyDangerous == true) imageView.context.getString(R.string.potentially_hazardous_asteroid_image) else  imageView.context.getString(R.string.not_hazardous_asteroid_image)
     Picasso.get().load(img).into(imageView)
 }

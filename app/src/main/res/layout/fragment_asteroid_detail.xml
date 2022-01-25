@@ -102,6 +102,7 @@
                       android:layout_height="wrap_content"
                       android:layout_weight="0.2"
                       android:padding="16dp"
+                      android:contentDescription="@string/astronomical_unit_explanation_button"
                       android:id="@+id/info_img"
                       android:src="@drawable/ic_baseline_help_24"
                       tools:src="@drawable/ic_baseline_help_24"/>

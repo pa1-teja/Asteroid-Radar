@@ -28,6 +28,7 @@
     <string name="view_week_asteroids">వారం గ్రహశకలాలను వీక్షించండి</string>
 
 
+    <string name="okay_message">అలాగే</string>
     <string name="astronomical_unit_format">%f au</string>
     <string name="km_unit_format">%f కి.మీ</string>
     <string name="km_s_unit_format">%f కిమీ/సె</string>

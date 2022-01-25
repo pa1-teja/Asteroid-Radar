@@ -55,14 +55,6 @@ class AsteroidFragment : BaseFragment() {
         })
 
 
-        asteroidViewModel.loadStatus.observe(viewLifecycleOwner, Observer {
-            when(it){
-                DataClasses.AsteroidLoadStatus.LOADING -> astoridFragmentBinding.progressBar.visibility = View.VISIBLE
-                DataClasses.AsteroidLoadStatus.ERROR -> astoridFragmentBinding.progressBar.visibility = View.GONE
-                DataClasses.AsteroidLoadStatus.DONE -> astoridFragmentBinding.progressBar.visibility = View.GONE
-            }
-        })
-
         asteroidViewModel.picOfDayURL.observe(viewLifecycleOwner, Observer {
             if (it.isNullOrBlank()){
                 Picasso.get().load(R.drawable.placeholder).fit().into(astoridFragmentBinding.imgOfDDay)
@@ -73,7 +65,9 @@ class AsteroidFragment : BaseFragment() {
 
         asteroidViewModel.picOfDayExplanation.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrBlank()){
-                astoridFragmentBinding.imgOfDDay.contentDescription = it
+                astoridFragmentBinding.imgOfDDay.contentDescription = getString(R.string.nasa_picture_of_day_content_description_format, it)
+            } else{
+                astoridFragmentBinding.imgOfDDay.contentDescription = getString(R.string.this_is_nasa_s_picture_of_day_showing_nothing_yet)
             }
         })
 

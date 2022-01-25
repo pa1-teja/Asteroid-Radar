@@ -4,7 +4,6 @@
 
     <!-- Network Strings -->
     <string name="API_KEY">0L79ZtiOlYdTYZlihXCtdgHjmz98YfiXjA9pFUU3</string>
-    <string name="BASE_URL">https://api.nasa.gov/neo/rest/v1/feed</string>
 
 
     <string name="img_of_the_day_txt">Image of the Day</string>
@@ -24,6 +23,7 @@
     <string name="view_week_asteroids">View week asteroids</string>
 
 
+    <string name="okay_message">OK</string>
     <string name="astronomical_unit_format">%f au</string>
     <string name="km_unit_format">%f km</string>
     <string name="km_s_unit_format">%f km/s</string>
